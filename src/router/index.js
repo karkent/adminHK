@@ -84,31 +84,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/documentation',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/documentation/index'),
-        name: 'Documentation',
-        meta: { title: 'documentation', icon: 'documentation', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/guide',
-    component: Layout,
-    redirect: '/guide/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/guide/index'),
-        name: 'Guide',
-        meta: { title: 'guide', icon: 'guide', noCache: true }
-      }
-    ]
-  },
-  {
     path: '/profile',
     component: Layout,
     redirect: '/profile/index',
@@ -119,6 +94,138 @@ export const constantRoutes = [
         component: () => import('@/views/profile/index'),
         name: 'Profile',
         meta: { title: 'profile', icon: 'user', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/userManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/userManage/index'),
+        name: 'UserManage',
+        meta: { title: '用户管理', icon: 'user', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/companyManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/companyManage/index'),
+        name: 'CompanyManage',
+        meta: { title: '家政中心管理', icon: 'component', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/serviceManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/serviceManage/index'),
+        name: 'ServiceManage',
+        meta: { title: '服务管理', icon: 'star', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/noticeManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/noticeManage/index'),
+        name: 'NoticeManage',
+        meta: { title: '公告管理', icon: 'edit', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/zoneManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/zoneManage/index'),
+        name: 'ZoneManage',
+        meta: { title: '区域管理', icon: 'search', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/resourceManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/resourceManage/index'),
+        name: 'ResourceManage',
+        meta: { title: '资源管理', icon: 'zip', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/preJobTrainingManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/preJobTrainingManage/index'),
+        name: 'PreJobTrainingManage',
+        meta: { title: '岗前培训', icon: 'people', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/orderManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/orderManage/index'),
+        name: 'orderManage',
+        meta: { title: '订单管理', icon: 'form', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/censusManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/censusManage/index'),
+        name: 'CensusManage',
+        meta: { title: '统计管理', icon: 'excel', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/postSaleManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/postSaleManage/index'),
+        name: 'PostSaleManage',
+        meta: { title: '售后管理', icon: 'list', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/adviserManage',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/adviserManage/index'),
+        name: 'AdviserManage',
+        meta: { title: '家政顾问', icon: 'peoples', noCache: true }
       }
     ]
   }
