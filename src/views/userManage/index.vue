@@ -3,19 +3,19 @@
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="所有用户" name="all">
         <el-table :data="tableData" style="width: 100%">
-          <el-table-column label="创建日期" prop="insertdata" />
+          <el-table-column label="创建日期" prop="insertdata" :formatter="ToStr" />
           <el-table-column label="用户名称" prop="uname" />
           <el-table-column label="账号" prop="uaccount" />
           <el-table-column label="电话" prop="phone" />
           <el-table-column label="邮箱" prop="uemail" />
-          <el-table-column label="性别" prop="usex" />
+          <el-table-column label="性别" prop="usex" :formatter="Tosex" />
           <el-table-column label="年龄" prop="uage" />
           <el-table-column label="身份证" prop="ucardid" />
           <el-table-column label="地址" prop="uaddressid" />
-          <el-table-column label="状态" prop="ustate" />
+          <el-table-column label="状态" prop="ustate" :formatter="ToState" />
           <el-table-column label="积分" prop="integral" />
           <el-table-column label="头像" prop="photourl" />
-          <el-table-column align="right">
+          <el-table-column align="right" width="200px">
             <template slot="header" slot-scope="scope">
               <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
             </template>
@@ -35,6 +35,7 @@
 </template>
 <script>
 import request from '../../utils/request'
+import { dateToStr } from '../../utils/kaihangTool'
 export default {
   name: 'UserManage',
   data() {
@@ -73,6 +74,23 @@ export default {
       console.log(`当前页: ${val}`)
       this.nowPage = val
       initTbl(this)
+    },
+    ToStr(row) {
+      return dateToStr(row)
+    },
+    Tosex(row) {
+      return (row.usex === 1) ? ('男') : ('女')
+    },
+    ToState(row) { // 0=禁用 1=启用 2=删除 3=注销
+      if (row.ustate === 0) {
+        return '禁用'
+      } else if (row.ustate === 1) {
+        return '启用'
+      } else if (row.ustate === 2) {
+        return '删除'
+      } else if (row.ustate === 3) {
+        return '注销'
+      }
     }
   }
 }
