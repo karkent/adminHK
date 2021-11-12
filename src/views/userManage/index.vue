@@ -16,7 +16,7 @@
           <el-table-column label="积分" prop="integral" />
           <el-table-column label="头像" prop="photourl" />
           <el-table-column align="right" width="200px">
-            <template slot="header" slot-scope="scope">
+            <template slot="header" slot-scope="{}">
               <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
             </template>
             <template slot-scope="scope">

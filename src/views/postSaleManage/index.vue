@@ -1,12 +1,19 @@
 <template>
-  <div>
-    <h1>售后管理</h1>
+  <div class="app-container">
+    <switch-roles @change="handleRolesChange" />
   </div>
 </template>
 
 <script>
+import SwitchRoles from '../../views/permission/components/SwitchRoles'
 export default {
-  name: 'PostSaleManage'
+  name: 'PagePermission',
+  components: { SwitchRoles },
+  methods: {
+    handleRolesChange() {
+      this.$router.push({ path: '/permission/index?' + +new Date() })
+    }
+  }
 }
 </script>
 
