@@ -1,25 +1,30 @@
 <template>
   <div class="app-container">
+    <!--    按钮-->
     <el-button type="primary" @click="handleAddRole">
       {{ $t('permission.addRole') }}
     </el-button>
-
+    <!--表格-->
     <el-table :data="rolesList" style="width: 100%;margin-top:30px;" border>
+      <!--      表格 role key字段-->
       <el-table-column align="center" label="Role Key" width="220">
         <template slot-scope="scope">
           {{ scope.row.key }}
         </template>
       </el-table-column>
+      <!--      表格 role name字段-->
       <el-table-column align="center" label="Role Name" width="220">
         <template slot-scope="scope">
           {{ scope.row.name }}
         </template>
       </el-table-column>
+      <!--      表格 Description(权限描述)字段-->
       <el-table-column align="header-center" label="Description">
         <template slot-scope="scope">
           {{ scope.row.description }}
         </template>
       </el-table-column>
+      <!--      表格操作字段-->
       <el-table-column align="center" label="Operations">
         <template slot-scope="scope">
           <el-button type="primary" size="small" @click="handleEdit(scope)">
@@ -31,13 +36,18 @@
         </template>
       </el-table-column>
     </el-table>
-
+    <!--      新增角色跟编辑权限弹窗-->
     <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'Edit Role':'New Role'">
+      <!--      弹出窗绑定数据role-->
       <el-form :model="role" label-width="80px" label-position="left">
+        <!--        角色名-->
         <el-form-item label="Name">
+          <!--          role中获取角色名-->
           <el-input v-model="role.name" placeholder="Role Name" />
         </el-form-item>
+        <!--        角色描述-->
         <el-form-item label="Desc">
+          <!--          role中获取描述-->
           <el-input
             v-model="role.description"
             :autosize="{ minRows: 2, maxRows: 4}"
@@ -45,8 +55,17 @@
             placeholder="Role Description"
           />
         </el-form-item>
+        <!--        角色权限选择栏-->
         <el-form-item label="Menus">
-          <el-tree ref="tree" :check-strictly="checkStrictly" :data="routesData" :props="defaultProps" show-checkbox node-key="path" class="permission-tree" />
+          <el-tree
+            ref="tree"
+            :check-strictly="checkStrictly"
+            :data="routesData"
+            :props="defaultProps"
+            show-checkbox
+            node-key="path"
+            class="permission-tree"
+          />
         </el-form-item>
       </el-form>
       <div style="text-align:right;">
@@ -96,11 +115,13 @@ export default {
   },
   created() {
     // Mock: get all routes and roles list from server
+    // 页面打开时从后台获取所有路由权限跟角色列表
     this.getRoutes()
     this.getRoles()
   },
   methods: {
     async getRoutes() {
+      // 定义 常量 res 其值为通过getRoutes() 访问后台获得的所有路由
       const res = await getRoutes()
       this.serviceRoutes = res.data
       const routes = this.generateRoutes(res.data)
@@ -123,7 +144,7 @@ export default {
     // Reshape the routes structure so that it looks the same as the sidebar
     generateRoutes(routes, basePath = '/') {
       const res = []
-
+      // 这个循环实际上是找出所有 hidden为true的路由
       for (let route of routes) {
         // skip some route
         if (route.hidden) { continue }
@@ -180,6 +201,7 @@ export default {
         // set checked state of a node not affects its father and child nodes
         this.checkStrictly = false
       })
+      console.log(this.routes)
     },
     handleDelete({ $index, row }) {
       this.$confirm('Confirm to remove the role?', 'Warning', {
