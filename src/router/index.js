@@ -82,6 +82,70 @@ export const constantRoutes = [
         meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
+  },
+  {
+    path: '/personManagement',
+    component: Layout,
+    children: [
+      {
+        path: 'personManagement',
+        component: () => import('@/views/personManagement/personManagement'),
+        name: 'Management',
+        meta: { title: '人员管理', icon: 'dashboard', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/hospital',
+    component: Layout,
+    redirect: '/hospital/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/hospital/index'),
+        name: 'Hospital',
+        meta: { title: '医院维护', icon: 'user', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/dataManagement',
+    component: Layout,
+    redirect: '/dataManagement/trashType',
+    children: [
+      {
+        path: 'trashType',
+        component: () => import('@/views/dataManagement/trashType'),
+        name: 'TrashType',
+        meta: { title: '废物分类管理', icon: 'user', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/dataManagement',
+    component: Layout,
+    redirect: '/dataManagement/trashPrint',
+    children: [
+      {
+        path: 'trashPrint',
+        component: () => import('@/views/dataManagement/trashPrint'),
+        name: 'TrashPrint',
+        meta: { title: '医废分类打印', icon: 'user', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/dataManagement',
+    component: Layout,
+    redirect: '/dataManagement/dataDictionary',
+    children: [
+      {
+        path: 'dataDictionary',
+        component: () => import('@/views/dataManagement/dataDictionary'),
+        name: 'DataDictionary',
+        meta: { title: '参数管理', icon: 'user', noCache: true }
+      }
+    ]
   }
   // {
   //   path: '/profile',
