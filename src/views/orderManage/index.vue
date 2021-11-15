@@ -91,7 +91,7 @@ export default {
 function initTbl(vue) {
   request.post('/user/getOrderTbl', {
     // 当前页
-    nowPage: vue.nowPage,
+    nowPage: (vue.nowPage - 1) * vue.pageSize,
     pageSize: vue.pageSize,
     // 表格数据
     tableData: vue.tableData,

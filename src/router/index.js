@@ -146,6 +146,19 @@ export const constantRoutes = [
         meta: { title: '参数管理', icon: 'user', noCache: true }
       }
     ]
+  },
+  {
+    path: '/departmentManage',
+    component: Layout,
+    redirect: '/departmentManage/department',
+    children: [
+      {
+        path: 'department',
+        component: () => import('@/views/departmentManage/department'),
+        name: 'Department',
+        meta: { title: '科室维护', icon: 'user', noCache: true }
+      }
+    ]
   }
   // {
   //   path: '/profile',
