@@ -17,12 +17,15 @@ import i18n from './lang' // internationalization
 import './icons' // icon
 import './permission' // permission control
 import './utils/error-log' // error log
-
+import md5 from 'js-md5'
 import * as filters from './filters' // global filters
 import axios from 'axios'
-
+import echarts from 'echarts' // 图表的依赖
+import htmlToPdf from './utils/htmlToPdf'
+import Print from 'vue-print-nb'
+Vue.prototype.$echarts = echarts
 Vue.prototype.$axios = axios
-
+Vue.prototype.$md5 = md5
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -31,11 +34,13 @@ Vue.prototype.$axios = axios
  * Currently MockJs will be used in the production environment,
  * please remove it before going online ! ! !
  */
-if (process.env.NODE_ENV === 'production') {
-  const { mockXHR } = require('../mock')
-  mockXHR()
-}
 
+// if (process.env.NODE_ENV === 'production') {
+//   const { mockXHR } = require('../mock')
+//   mockXHR()
+// }
+Vue.use(htmlToPdf)
+Vue.use(Print)
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium', // set element-ui default size
   i18n: (key, value) => i18n.t(key, value)

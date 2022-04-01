@@ -14,10 +14,10 @@ export function isExternal(path) {
  * @param {string} str
  * @returns {Boolean}
  */
-export function validUsername(str) {
-  const valid_map = ['admin', 'editor']
-  return valid_map.indexOf(str.trim()) >= 0
-}
+// export function validUsername(str) { // 框架自带 这条代码是 检查账号名是否是 [admin,editor]
+//   const valid_map = ['admin', 'editor']
+//   return valid_map.indexOf(str.trim()) >= 0
+// }
 
 /**
  * @param {string} url

@@ -84,69 +84,97 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/personManagement',
-    component: Layout,
-    children: [
-      {
-        path: 'personManagement',
-        component: () => import('@/views/personManagement/personManagement'),
-        name: 'Management',
-        meta: { title: '人员管理', icon: 'dashboard', noCache: true }
-      }
-    ]
+    path: '/staffManage/infoQcorde',
+    name: 'infoQcorde',
+    component: () => import('@/views/staffManage/infoQcorde'),
+    targer: true
   },
   {
-    path: '/hospital',
-    component: Layout,
-    redirect: '/hospital/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/hospital/index'),
-        name: 'Hospital',
-        meta: { title: '医院维护', icon: 'user', noCache: true }
-      }
-    ]
+    path: '/dataManagement/boxEr',
+    name: 'BoxEr',
+    component: () => import('@/views/dataManagement/boxEr'),
+    targer: true
   },
   {
-    path: '/dataManagement',
-    component: Layout,
-    redirect: '/dataManagement/trashType',
-    children: [
-      {
-        path: 'trashType',
-        component: () => import('@/views/dataManagement/trashType'),
-        name: 'TrashType',
-        meta: { title: '废物分类管理', icon: 'user', noCache: true }
-      }
-    ]
+    path: '/dataManagement/saveEr',
+    name: 'SaveEr',
+    component: () => import('@/views/dataManagement/saveEr'),
+    targer: true
   },
   {
-    path: '/dataManagement',
-    component: Layout,
-    redirect: '/dataManagement/trashPrint',
-    children: [
-      {
-        path: 'trashPrint',
-        component: () => import('@/views/dataManagement/trashPrint'),
-        name: 'TrashPrint',
-        meta: { title: '医废分类打印', icon: 'user', noCache: true }
-      }
-    ]
+    path: '/dataManagement/depPrintAllEr',
+    name: 'DepPrintAllEr',
+    component: () => import('@/views/dataManagement/depPrintAllEr'),
+    targer: true
   },
   {
-    path: '/dataManagement',
-    component: Layout,
-    redirect: '/dataManagement/dataDictionary',
-    children: [
-      {
-        path: 'dataDictionary',
-        component: () => import('@/views/dataManagement/dataDictionary'),
-        name: 'DataDictionary',
-        meta: { title: '参数管理', icon: 'user', noCache: true }
-      }
-    ]
+    path: '/dataManagement/depTypePrintEr',
+    name: 'DepTypePrintEr',
+    component: () => import('@/views/dataManagement/depTypePrintEr'),
+    targer: true
+  },
+  {
+    path: '/dataManagement/depPrintEr',
+    name: 'DepPrintEr',
+    component: () => import('@/views/dataManagement/depPrintEr'),
+    targer: true
+  },
+  // {
+  //   path: '/basicSettings',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'roomkeep',
+  //       component: () => import('@/views/basicSettings/roomkeep'),
+  //       name: 'Roomkeep',
+  //       meta: { title: '测试页', icon: 'dashboard', affix: true }
+  //     }
+  //   ]
+  // },
+  {
+    path: '/trashUp/er',
+    name: 'Er',
+    component: () => import('@/views/trashManage/er'),
+    targer: true
+  },
+  {
+    path: '/mwStock/printTable',
+    name: 'PrintTable',
+    component: () => import('@/views/mwStock/printTable'),
+    targer: true
+  },
+  {
+    path: '/trashManage/table',
+    name: 'Table',
+    component: () => import('@/views/trashManage/table'),
+    targer: true
+  },
+  {
+    path: '/trashManage/table2',
+    name: 'Table2',
+    component: () => import('@/views/trashManage/table2'),
+    targer: true
+  },
+  {
+    path: '/trashManage/hazardousWasteTable',
+    name: 'HazardousWasteTable',
+    component: () => import('@/views/trashManage/hazardousWasteTable'),
+    // targer: true
+    hidden: true
+  },
+  {
+    path: '/trashManage/dangertable',
+    name: 'Dangertable',
+    component: () => import('@/views/trashManage/dangertable'),
+    targer: true
   }
+  // ,
+  // {
+  //   path: '/setwarning/warningList',
+  //   name: 'WarningList',
+  //   component: () => import('@/views/setwarning/warningList'),
+  //   targer: true
+  // }
   // {
   //   path: '/profile',
   //   component: Layout,
@@ -160,138 +188,6 @@ export const constantRoutes = [
   //       meta: { title: 'profile', icon: 'user', noCache: true }
   //     }
   //   ]
-  // },
-  // {
-  //   path: '/userManage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/userManage/index'),
-  //       name: 'UserManage',
-  //       meta: { title: '用户管理', icon: 'user', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/companyManage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/companyManage/index'),
-  //       name: 'CompanyManage',
-  //       meta: { title: '家政中心管理', icon: 'component', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/serviceManage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/serviceManage/index'),
-  //       name: 'ServiceManage',
-  //       meta: { title: '服务管理', icon: 'star', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/noticeManage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/noticeManage/index'),
-  //       name: 'NoticeManage',
-  //       meta: { title: '公告管理', icon: 'edit', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/zoneManage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/zoneManage/index'),
-  //       name: 'ZoneManage',
-  //       meta: { title: '区域管理', icon: 'search', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/resourceManage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/resourceManage/index'),
-  //       name: 'ResourceManage',
-  //       meta: { title: '资源管理', icon: 'zip', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/preJobTrainingManage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/preJobTrainingManage/index'),
-  //       name: 'PreJobTrainingManage',
-  //       meta: { title: '岗前培训', icon: 'people', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/orderManage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/orderManage/index'),
-  //       name: 'orderManage',
-  //       meta: { title: '订单管理', icon: 'form', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/censusManage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/censusManage/index'),
-  //       name: 'CensusManage',
-  //       meta: { title: '统计管理', icon: 'excel', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/postSaleManage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/postSaleManage/index'),
-  //       name: 'PostSaleManage',
-  //       meta: { title: '售后管理', icon: 'list', noCache: true }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/adviserManage',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import('@/views/adviserManage/index'),
-  //       name: 'AdviserManage',
-  //       meta: { title: '家政顾问', icon: 'peoples', noCache: true }
-  //     }
-  //   ]
   // }
 ]
 
@@ -300,60 +196,60 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'Permission',
-    meta: {
-      title: 'permission',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: 'pagePermission',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      }
-      // {
-      //   path: 'directive',
-      //   component: () => import('@/views/permission/directive'),
-      //   name: 'DirectivePermission',
-      //   meta: {
-      //     title: 'directivePermission'
-      //     // if do not set roles, means: this page does not require permission
-      //   }
-      // },
-      // {
-      //   path: 'role',
-      //   component: () => import('@/views/permission/role'),
-      //   name: 'RolePermission',
-      //   meta: {
-      //     title: 'rolePermission',
-      //     roles: ['admin']
-      //   }
-      // }
-    ]
-  }
-
   // {
-  //   path: '/icon',
+  //   path: '/permission',
   //   component: Layout,
+  //   redirect: '/permission/page',
+  //   alwaysShow: true, // will always show the root menu
+  //   name: 'Permission',
+  //   meta: {
+  //     title: 'permission',
+  //     icon: 'lock',
+  //     roles: ['admin', 'editor'] // you can set roles in root nav
+  //   },
   //   children: [
   //     {
-  //       path: 'index',
-  //       component: () => import('@/views/icons/index'),
-  //       name: 'Icons',
-  //       meta: { title: 'icons', icon: 'icon', noCache: true }
+  //       path: 'page',
+  //       component: () => import('@/views/permission/page'),
+  //       name: 'PagePermission',
+  //       meta: {
+  //         title: 'pagePermission',
+  //         roles: ['admin'] // or you can only set roles in sub nav
+  //       }
   //     }
+  //     // {
+  //     //   path: 'directive',
+  //     //   component: () => import('@/views/permission/directive'),
+  //     //   name: 'DirectivePermission',
+  //     //   meta: {
+  //     //     title: 'directivePermission'
+  //     //     // if do not set roles, means: this page does not require permission
+  //     //   }
+  //     // },
+  //     // {
+  //     //   path: 'role',
+  //     //   component: () => import('@/views/permission/role'),
+  //     //   name: 'RolePermission',
+  //     //   meta: {
+  //     //     title: 'rolePermission',
+  //     //     roles: ['admin']
+  //     //   }
+  //     // }
   //   ]
-  // },
+  // }
+
+  {
+    path: '/icon',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/icons/index'),
+        name: 'Icons',
+        meta: { title: 'icons', icon: 'icon', noCache: true }
+      }
+    ]
+  }
 
   /** when your routing map is too long, you can split it into small modules **/
   // componentsRouter,

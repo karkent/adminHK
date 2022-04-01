@@ -6,3 +6,11 @@ export function getToken() {
     method: 'get'
   })
 }
+
+export function getOption(data) {
+  return request({
+    url: '/data/findAllByPid',
+    method: 'post',
+    data
+  })
+}

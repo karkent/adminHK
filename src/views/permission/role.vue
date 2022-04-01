@@ -201,7 +201,6 @@ export default {
         // set checked state of a node not affects its father and child nodes
         this.checkStrictly = false
       })
-      console.log(this.routes)
     },
     handleDelete({ $index, row }) {
       this.$confirm('Confirm to remove the role?', 'Warning', {

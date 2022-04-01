@@ -4,9 +4,10 @@
 
       <div class="title-container">
         <h3 class="title">
-          {{ $t('login.title') }}
+          <!--          {{ $t('login.title') }}-->
+          医疗废物收集后台管理系统
         </h3>
-        <lang-select class="set-language" />
+        <!--        <lang-select class="set-language" />-->
       </div>
 
       <el-form-item prop="username">
@@ -54,59 +55,68 @@
 
       <div style="position:relative">
         <div class="tips">
-          <span>{{ $t('login.username') }} : admin</span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
+          <!--          <span>{{ $t('login.username') }} : admin</span>-->
+          <!--          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>-->
+          <span>{{ $t('login.username') }} : 工号/你的账号</span>
+          <span>{{ $t('login.password') }} : 你的密码</span>
         </div>
-        <div class="tips">
-          <span style="margin-right:18px;">
-            {{ $t('login.username') }} : editor
-          </span>
-          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>
-        </div>
+        <!--        <div class="tips">-->
+        <!--          <span style="margin-right:18px;">-->
+        <!--            {{ $t('login.username') }} : editor-->
+        <!--          </span>-->
+        <!--          <span>{{ $t('login.password') }} : {{ $t('login.any') }}</span>-->
+        <!--        </div>-->
 
-        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
-          {{ $t('login.thirdparty') }}
-        </el-button>
+        <!--        <el-button class="thirdparty-button" type="primary" @click="showDialog=true">-->
+        <!--          {{ $t('login.thirdparty') }}-->
+        <!--        </el-button>-->
       </div>
     </el-form>
 
-    <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">
-      {{ $t('login.thirdpartyTips') }}
-      <br>
-      <br>
-      <br>
-      <social-sign />
-    </el-dialog>
+    <!--    <el-dialog :title="$t('login.thirdparty')" :visible.sync="showDialog">-->
+    <!--      {{ $t('login.thirdpartyTips') }}-->
+    <!--      <br>-->
+    <!--      <br>-->
+    <!--      <br>-->
+    <!--      <social-sign />-->
+    <!--    </el-dialog>-->
   </div>
 </template>
 
 <script>
-import { validUsername } from '@/utils/validate'
-import LangSelect from '@/components/LangSelect'
-import SocialSign from './components/SocialSignin'
+// import { validUsername } from '@/utils/validate' // 框架自带
+// import LangSelect from '@/components/LangSelect'
+// import SocialSign from './components/SocialSignin'
 
 export default {
   name: 'Login',
-  components: { LangSelect, SocialSign },
+  // components: { LangSelect, SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
-      } else {
-        callback()
-      }
+      const mailReg = /^[A-Za-z0-9]+$/
+      setTimeout(() => { // 原框架写的方法为 if(validUsername(value))
+        if (mailReg.test(value) || value === '') {
+          callback()
+        } else {
+          callback(new Error('账号名由数字和26个英文字母组成'))
+        }
+      })
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码不少于6位'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '',
+        password: ''
+      },
+      form: {
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -162,19 +172,20 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
-        console.log('调用handleLogin')
+        this.form.password = this.$md5(this.loginForm.password)
+        this.form.username = this.loginForm.username
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
+          this.$store.dispatch('user/login', this.form)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+              // 返回令牌，跳转路由，跳转路由的时候 根据用户信息拥有的权限跳转路由
+              this.$router.push({ path: '/', query: this.otherQuery })
               this.loading = false
             })
             .catch(() => {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
           return false
         }
       })

@@ -1,13 +1,40 @@
 import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import {
+  getToken,
+  setToken,
+  removeToken,
+  getUserName,
+  setUserName,
+  removeUserName,
+  getRoleType,
+  setRoleType,
+  removeRoleType,
+  setAccId,
+  removeAccId,
+  getAccId,
+  getHospitalId,
+  setHospitalId,
+  removeHospitalId,
+  getName,
+  setName,
+  removeName,
+  getHospitalName,
+  setHospitalName,
+  removeHospitalName
+} from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
-  name: '',
+  name: getName(),
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  username: getUserName(),
+  roletype: getRoleType(),
+  accid: getAccId(),
+  hospitalid: getHospitalId(),
+  hospitalname: getHospitalName()
 }
 
 const mutations = {
@@ -25,6 +52,21 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_USERNAME: (state, username) => {
+    state.username = username
+  },
+  SET_ROLETYPE: (state, roletype) => {
+    state.roletype = roletype
+  },
+  SET_ACCID: (state, accid) => {
+    state.accid = accid
+  },
+  SET_HOSPITALID: (state, hospitalid) => {
+    state.accid = hospitalid
+  },
+  SET_HOSPITALNAME: (state, hospitalname) => {
+    state.hospitalname = hospitalname
   }
 }
 
@@ -36,10 +78,22 @@ const actions = {
       login({ username: username.trim(), password: password }).then(response => {
         // const { data } = response
         commit('SET_TOKEN', response.token)
+        commit('SET_USERNAME', response.username)
+        commit('SET_ROLETYPE', response.roletype)
+        commit('SET_ACCID', response.accid)
+        commit('SET_HOSPITALID', response.hospitalid)
+        commit('SET_NAME', response.name)
+        commit('SET_HOSPITALNAME', response.hospitalName)
         setToken(response.token)
-        console.log('login：')
-        console.log(response.token)
-        resolve()
+        setUserName(response.username)
+        setRoleType(response.roletype)
+        setAccId(response.accid)
+        setHospitalId(response.hospitalid)
+        setName(response.name)
+        setHospitalName(response.hospitalName)
+
+        resolve() // 执行这条代码，会跳到login\index文件的handleLogin.then中
+        // commit('SET_TOKEN', response.token)
       }).catch(error => {
         reject(error)
       })
@@ -48,21 +102,19 @@ const actions = {
 
   // get user info
   getInfo({ commit, state }) {
-    console.log('准备打印token')
-    console.log('state.token=======' + state.token)
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        console.log('打印getInfo从后台传来的数据')
-        console.log(response)
-        console.log(response.code)
-        if (!response.roles || response.roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
+      getInfo({
+        token: state.token,
+        username: state.username,
+        roletype: state.roletype,
+        accid: state.accid
+      }).then(response => {
+        // if (!response.roles || response.roles.length <= 0) {
+        //   reject('getInfo: roles must be a non-null array!')
+        // }
         commit('SET_ROLES', response.roles)
-        commit('SET_ROLES', response.roles)
-
         // commit('SET_NAME', name)
-        // commit('SET_AVATAR', avatar)
+        // commit('SET_AVATAR', response.avatar)
         // commit('SET_INTRODUCTION', introduction)
         resolve(response)
       }).catch(error => {
@@ -73,13 +125,23 @@ const actions = {
 
   // user logout
   logout({ commit, state, dispatch }) {
-    console.log('打印state.token：')
-    console.log(state.token)
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
+        commit('SET_ROLETYPE', '')
+        commit('SET_ACCID', '')
+        commit('SET_HOSPITALID', '')
+        commit('SET_NAME', '')
+        commit('SET_HOSPITALNAME', '')
+
         removeToken()
+        removeRoleType()
+        removeUserName()
+        removeAccId()
+        removeHospitalId()
+        removeName()
+        removeHospitalName()
         resetRouter()
         dispatch('tagsView/delAllViews', null, { root: true })
         resolve()
@@ -102,7 +164,6 @@ const actions = {
   // dynamically modify permissions
   async changeRoles({ commit, dispatch }, role) {
     const token = role + '-token'
-    console.log('触发动态修改权限的方法changeRoles')
     commit('SET_TOKEN', token)
     setToken(token)
 
