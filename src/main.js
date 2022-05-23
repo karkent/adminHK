@@ -8,7 +8,7 @@ import Element from 'element-ui'
 import './styles/element-variables.scss'
 
 import '@/styles/index.scss' // global css
-
+import '../src/assets/css/YouSheBiaoTiHei.css'
 import App from './App'
 import store from './store'
 import router from './router'
@@ -20,7 +20,7 @@ import './utils/error-log' // error log
 import md5 from 'js-md5'
 import * as filters from './filters' // global filters
 import axios from 'axios'
-import echarts from 'echarts' // 图表的依赖
+import * as echarts from 'echarts' // 图表的依赖
 import htmlToPdf from './utils/htmlToPdf'
 import Print from 'vue-print-nb'
 Vue.prototype.$echarts = echarts

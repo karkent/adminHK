@@ -65,7 +65,7 @@
           <!-- <el-table-column sortable width="80" label="状态" prop="handlestate" />:formatter="formatState" -->
           <el-table-column sortable width="110" label="预警原因" prop="wcase" />
           <el-table-column sortable width="170" label="预警时间" prop="wtime" />
-          <el-table-column sortable width="140" label="处理人" prop="sname" />
+          <el-table-column sortable width="140" label="处理人" prop="aname" />
           <el-table-column sortable width="110" label="处理意见" prop="handleidea" />
           <el-table-column sortable width="110" label="处理状态" prop="handlestate">
             <template slot-scope="scope">
@@ -311,6 +311,7 @@ export default {
       this.form2.handleidea = row.handleidea
       this.form2.noteid = row.noteid
       this.form2.wcase = row.wcase
+      console.log(this.form2.handleidea + '@' + this.form2.noteid + '@@' + this.form2.wcase)
     },
     close(formname) {
       this.dialogFormVisible2 = false
@@ -319,7 +320,7 @@ export default {
       this.$refs[form2].validate((valid) => {
         if (valid) {
           this.form2.handletime = new Date().toLocaleString()
-          this.form2.handleman = 36
+          this.form2.handleman = 12
           request.post('/dashboard/updateHandle', this.form2).then(res => {
             this.$message({
               message: '修改成功',

@@ -585,80 +585,80 @@ export default {
 }
 </script>
 <style>
-  /* // 去掉滚动条的默认样式 */
-  .seamless-warp {
-    margin-top: 5%;
-    width: 100%;
-    height: 70%;
-    overflow: hidden;
-  }
-  .seamless-warp2 {
-    margin-top: 5%;
-    width: 100%;
-    height: 70%;
-    overflow: hidden;
-  }
+/* // 去掉滚动条的默认样式 */
+.seamless-warp {
+  margin-top: 5%;
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+}
+.seamless-warp2 {
+  margin-top: 5%;
+  width: 100%;
+  height: 70%;
+  overflow: hidden;
+}
 </style>
 <style lang="scss" scoped>
-  .warp {
-    width: 100%;
-    height: 300px;
-    //margin: 0 auto;
-    overflow: hidden;
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 auto;
-      &.ul-item {
-        display: flex;
-        .li-item {
-          width: 100px;
-          height: 270px;
-          margin-right: 10px;
-          line-height: 200px;
-          background-color: #2c8ff1;
-          color: #fff;
-          text-align: center;
-          font-size: 15px;
-          margin-top: 15px;
-          border-radius: 10px;
-        }
+.warp {
+  width: 100%;
+  height: 300px;
+  //margin: 0 auto;
+  overflow: hidden;
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    &.ul-item {
+      display: flex;
+      .li-item {
+        width: 100px;
+        height: 270px;
+        margin-right: 10px;
+        line-height: 200px;
+        background-color: #2c8ff1;
+        color: #fff;
+        text-align: center;
+        font-size: 15px;
+        margin-top: 15px;
+        border-radius: 10px;
       }
     }
   }
-  .DIV_analysis {
-    float:left;
-    width: 33%;
-    height: 320px;
-  }
-  .Day_month_analysis {
-    //border: 1px solid #808080;
-    //box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    //border-radius: 10px;
-    ////min-width: 50%;
-    ////max-width: 110%;
-    ////height: 300px;
-    ///*background-color: #f6f7f8;*/
-    //margin: 10px 10px 0px 10px;
-  }
-  .inOut_15_stock {
-    border: 1px solid #808080;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    min-width: 50%;
-    max-width: 110%;
-    height: 300px;
-    /*background-color: #f6f7f8;*/
-    margin: 10px 10px 0px 10px;
-  }
-  .people_Department_work {
-    border: 1px solid #808080;
-    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    min-width: 50%;
-    max-width: 110%;
-    height: 300px;
-    /*background-color: #f6f7f8;*/
-    margin: 10px 10px 0px 10px;
-  }
+}
+.DIV_analysis {
+  float:left;
+  width: 33%;
+  height: 320px;
+}
+.Day_month_analysis {
+  //border: 1px solid #808080;
+  //box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  //border-radius: 10px;
+  ////min-width: 50%;
+  ////max-width: 110%;
+  ////height: 300px;
+  ///*background-color: #f6f7f8;*/
+  //margin: 10px 10px 0px 10px;
+}
+.inOut_15_stock {
+  border: 1px solid #808080;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  min-width: 50%;
+  max-width: 110%;
+  height: 300px;
+  /*background-color: #f6f7f8;*/
+  margin: 10px 10px 0px 10px;
+}
+.people_Department_work {
+  border: 1px solid #808080;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  min-width: 50%;
+  max-width: 110%;
+  height: 300px;
+  /*background-color: #f6f7f8;*/
+  margin: 10px 10px 0px 10px;
+}
 </style>

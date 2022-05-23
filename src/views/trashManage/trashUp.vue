@@ -1009,7 +1009,7 @@ function trashsaveidList(vue, saveid) { // 批量修改暂存点 补关联入库
   }
 }
 function collectList(vue) {
-  request.post('/medicaltype/FindcollectList', {}).then(res => {
+  request.post('/medicaltype/aa', {}).then(res => {
     var List = res.list // 收集人的集合
     List.forEach(item => {
       const list = {

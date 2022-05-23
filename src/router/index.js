@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import Show from '../views/login/Show'
 
 /* Router Modules */
 // import componentsRouter from './modules/components'
@@ -39,6 +40,11 @@ import Layout from '@/layout'
  * all roles can be accessed
  */
 export const constantRoutes = [
+  {
+    path: '/',
+    name: 'show',
+    component: Show
+  },
   {
     path: '/redirect',
     component: Layout,
