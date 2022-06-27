@@ -337,6 +337,7 @@
 import request from '../../utils/request'
 import { dateToStr } from '../../utils/kaihangTool'
 import '../../styles/kLayout.css'
+import { getAccId, getRoleType } from '../../utils/auth'
 export default {
   name: 'TrashUp',
   data() {
@@ -396,10 +397,11 @@ export default {
       searchStr: '',
       tableData: [],
       tableDataAll: [],
-      pageSize: 10,
+      pageSize: 16,
       currPage: 1,
       totalCum: 0,
       ruleForm: {
+        adminid: '',
         saveid: '',
         state: 7,
         did: '',
@@ -797,6 +799,7 @@ export default {
     submitForm(ruleForm) {
       this.$refs[ruleForm].validate((valid) => {
         if (valid) {
+          this.ruleForm.adminid = getAccId(),
           this.ruleForm.collectdate = dateToStr(this.ruleForm.collectdate)
           request.post('/medicaltype/HandaddDate', this.ruleForm).then(res => {
             this.$message.success(res.msg)
@@ -994,7 +997,8 @@ function trashsaveidList(vue, saveid) { // 批量修改暂存点 补关联入库
   if (vue.SaveIdArray.length > 0) {
     request.post('/medicaltype/upSaveid', {
       SaveIdArray: vue.SaveIdArray,
-      saveid: saveid
+      saveid: saveid,
+      adminid: getAccId()
     }).then(res => {
       vue.$message({
         message: res.msg,
@@ -1009,7 +1013,7 @@ function trashsaveidList(vue, saveid) { // 批量修改暂存点 补关联入库
   }
 }
 function collectList(vue) {
-  request.post('/medicaltype/aa', {}).then(res => {
+  request.post('/medicaltype/FindcollectList', {}).then(res => {
     var List = res.list // 收集人的集合
     List.forEach(item => {
       const list = {

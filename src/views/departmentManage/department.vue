@@ -481,7 +481,7 @@ export default {
       cities: [],
       departrmentIdArray: [],
       nowPage: 1,
-      pageSize: 10,
+      pageSize: 16,
       totalCum: 0,
       options: []
     }

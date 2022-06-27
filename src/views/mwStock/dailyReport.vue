@@ -109,7 +109,7 @@ export default {
       // 当前页数
       nowPage: 1,
       // 当前页显示数量
-      pageSize: 10,
+      pageSize: 16,
       // 当前总页数
       totalCum: 10,
       // 当天时间

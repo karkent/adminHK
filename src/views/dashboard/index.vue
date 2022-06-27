@@ -1,136 +1,236 @@
 <template>
-  <div>
-    <div class="baseroot" style=" margin: 5px; display:flex ; justify-content: space-between">
-      <!--      左面板-->
-      <div class="leftPanel" style="display: flex; flex-flow: column; width: 50%">
-        <!--  医废 行-->
-        <div class="leftrow1" style="width: 100% ; border: 1px solid #85bbd2; background:#85bbd210;  margin-top: 5px ; border-radius: 10px">
-          <div style="float:left;width: 100%;height: 300px;">
-            <!-- 医疗废物日报表-->
-            <p style="font-weight: bold ; font-size: 15px ; margin-left: 50px">医废日报表</p>
-            <div id="sun" style="width: 100%;height: 250px;border-radius:10px" />
-          </div>
-        </div>
-        <!-- 图片行-->
-        <div class="leftrow2" style="width: 100% ; border: 1px solid #85bbd2; margin-top: 5px ; border-radius: 10px">
-          <div style="width: 100%;height: 250px;background-color: #dff0fb;float: left; border-radius:10px">
-            <img
-              src="../../assets/img/dingw.png"
-              style="width:100%;height: 250px;
-              border-radius:10px"
-            >
-          </div>
-        </div>
+  <div ref="topDiv" style="width: 100%;height: 100%;background: #F3F4FD;position:absolute;line-height: 1.3">
+    <div class="divTop">
+      <div class="topDivOne">
+        <img src="../../assets/img/day_logo.png" style="width: 1.5vw;">
+        &nbsp;<span :style="colorDiv(this.back)" class="hText">厦门大学附属第一医院医废平台</span>
+      </div>
+      <div class="topDivTow">
+        <span :style="colorDiv(this.back)" class="timeText">{{ this.time }}</span>
+      </div>
+      <div class="topDivThree">
+        <img ref="on" src="@/assets/img/day_daytime_icon.png" style="display: block;width: 1.4vw" @click="daytime">
+        <img ref="off" src="@/assets/img/night_daytime_icon.png" style="display: none;width: 1.4vw" @click="daytime">
+      </div>
+    </div>
 
-        <!-- 滑动行-->
-        <div class="leftrow3" style="width: 100% ; border: 1px solid #85bbd2; margin-top: 5px ; border-radius: 10px">
-          <div
-            style="width:100%;height: 300px;background-color: #dff0fb;float: left;z-index: 1; border-radius: 10px"
-          >
-            <vue-seamless-scroll :data="listData" :class-option="optionHover2" class="warp">
-              <ul class="ul-item">
-                <li v-for="(item, index) in listData3" :key="index" class="li-item">
-                  <a style="float: left;margin-top: -45px">{{ item.item3 }}</a>
-                  <a>{{ item.date3 }}</a>
-                </li>
-              </ul>
-            </vue-seamless-scroll>
-          </div>
+    <div :style="backDiv(this.back)" class="towDiv">
+
+      <div class="towDivSon">
+        <div>
+          <span :style="colorDiv(this.back)" class="weightText">{{ this.showData.month }}</span>
+        </div>
+        <div style="padding: 5% 0 0 0;">
+          <span :style="colorFont(this.back)" class="weightText2">医废月总重量（kg）</span>
+          <img class="weightImg" src="@/assets/img/day_element1_icon.png">
         </div>
       </div>
 
-      <!--      右面板-->
-      <div class="rightPanel" style="display: flex; width:50%; justify-content: space-between">
-        <!-- 列布局 1-->
-        <div class="rightcon1" style="width: 50% ;  flex-flow: column; justify-content: space-between; border-radius: 10px">
-          <!--          月度分析-->
-          <div style="width: 100%;height: 300px;  border: 1px solid #85bbd2;margin-left: 5px ; margin-top: 5px ;background:#85bbd210;float: left; border-radius:10px">
-            <div id="month" class="Day_month_analysis" style="width: 100% ; height: 100%" />
-          </div>
-
-          <!--         近十五天-->
-          <div style="width: 100%;height: 250px;  border: 1px solid #85bbd2;margin-left: 5px ; margin-top: 5px ;background:#85bbd210;float: left; border-radius:10px">
-            <!--            近十五天医废收集趋势-->
-            <div id="inOut15" style="width: 100% ; height: 100%" />
-          </div>
-          <!--          科室收集信息-->
-          <div style="width: 100%;height: 300px;  border: 1px solid #85bbd2; margin-left: 5px ; margin-top: 5px ;background:#85bbd210;float: left; border-radius:10px">
-            <!--    科室收集信息-->
-            <div style="width: 95% ; height: 100% ; border-radius:10px">
-              <b style="font-size: 17px;float: left; margin-left: 5% ; margin-top: 5%">科室收集信息</b>
-              <div style="width: 95%;float: left;margin-top: 5%;">
-                <b style="float: left;margin-left: 5%">科室</b>
-                <b style="float: left;margin-left: 10%">重量</b>
-                <b style="margin-left: 10%">收集时间</b>
-              </div>
-              <vue-seamless-scroll style="margin-top: 5%" :data="listData2" :class-option="optionHover" class="seamless-warp2">
-                <div class="item2">
-                  <a v-for="(item2, index) in listData2" :key="index">
-                    <div style="margin-top: 5%">
-                      <span class="title2" style="float: left;margin-left: 5%;color: #828282" v-text="item2.title2" />
-                      <span class="date2" style="float: left;margin-left: 5%;color: #4775d1" v-text="item2.date2" />
-                      <span class="uName2" style="margin-left: 10%;color: #4775d1" v-text="item2.uName2" />
-                      <br>
-                    </div>
-                  </a>
-                </div>
-              </vue-seamless-scroll>
-            </div>
-          </div>
-
+      <div class="towDivSon">
+        <div>
+          <span :style="colorDiv(this.back)" class="weightText">{{ this.showData.year }}</span>
         </div>
-
-        <!-- 列布局 2-->
-        <div class="rightcon1" style="width: 50% ; margin-left: 5px; flex-flow: column; justify-content: space-between; border-radius: 10px">
-          <!--          日分析-->
-          <div style="width: 100%;height: 300px;  border: 1px solid #85bbd2;margin-left: 5px ; margin-top: 5px ;background:#85bbd210;float: left; border-radius:10px">
-            <div id="day" class="Day_month_analysis" style="width: 100% ; height: 100%" />
-          </div>
-
-          <!--         出库情况-->
-          <div style="width: 100%;height: 250px;  border: 1px solid #85bbd2; margin-left: 5px ; margin-top: 5px ;background:#85bbd210;float: left; border-radius:10px">
-            <!--        出入库信息-->
-            <div id="histogram" style="width: 100% ; height: 100%" />
-          </div>
-          <!--          人员集信息-->
-          <div style="width: 100%;height: 300px;  border: 1px solid #85bbd2; margin-left: 5px ; margin-top: 5px ;background:#85bbd210;float: left; border-radius:10px">
-            <!--     人员收集信息-->
-            <div style="width: 95% ; height: 100% ; border-radius:10px">
-              <b style="font-size: 17px;float: left; margin-left: 5% ; margin-top: 5%">人员收集信息</b>
-              <div style="width: 95%;float: left;margin-top: 5%;">
-                <b style="float: left;margin-left: 5%">收集人员</b>
-                <b style="float: left;margin-left: 10%">收集重量</b>
-                <b style="margin-left: 10%">收集时间</b>
-              </div>
-              <vue-seamless-scroll style="margin-top: 5%" :data="listData" :class-option="optionHover" class="seamless-warp2">
-                <div class="item">
-                  <a v-for="(item, index) in listData" :key="index">
-                    <div style="margin-top: 5%">
-                      <span class="uName" style="margin-left: 5%;color: #4775d1" v-text="item.uName" />
-                      <span class="date" style="float: left;margin-left: 5%;color: #4775d1" v-text="item.date" />
-                      <span class="title" style="float: left;margin-left: 5%;color: #828282" v-text="item.title" />
-
-                      <br>
-                    </div>
-                  </a>
-                </div>
-              </vue-seamless-scroll>
-            </div>
-          </div>
+        <div style="padding: 5% 0 0 0;">
+          <span :style="colorFont(this.back)" class="weightText2">医废年总重量（kg）</span>
+          <img class="weightImg" src="@/assets/img/day_element2_icon.png">
         </div>
       </div>
+      <div class="towDivThree">
+        <div>
+          <span :style="colorDiv(this.back)" class="weightText">{{ this.showData.day }}</span>
+        </div>
+        <div style="padding: 5% 0 0 0;">
+          <span :style="colorFont(this.back)" class="weightText2">医废日总重量（kg）</span>
+          <img class="weightImg" src="@/assets/img/day_element3_icon.png">
+        </div>
+      </div>
+    </div>
+
+    <div class="midDiv">
+      <div :style="backDiv(this.back)" class="allBottomLeftOneDivSon">
+        <div style="padding:2% 0 0 6%;">
+          <span :style="backF(this.back)" class="midDivText">科室年收集总量排序(kg)</span>
+        </div>
+
+        <div id="building" :style="backP(this.back)" style="margin: auto">
+          <div class="allBottomLeftDiv">
+            <div class="numWeightOneTop">
+              <span class="weightTop">{{ this.showData.tblMSortOne.weight }}kg</span>
+            </div>
+            <div class="numWeightOneLeft">
+              <span class="roomName">{{ this.showData.tblMSortOne.spare3 }}</span>
+            </div>
+          </div>
+
+          <div class="allBottomLeftDiv">
+            <div class="numWeightTowTop">
+              <span class="weightTow">{{ this.showData.tblMSortThree.weight }}kg</span>
+            </div>
+            <div class="numWeightOneMid">
+              <span class="roomNameTow">{{ this.showData.tblMSortThree.spare3 }}</span>
+            </div>
+          </div>
+
+          <div class="allBottomLeftDiv">
+            <div class="numWeightThreeTop">
+              <span class="weightTop">{{ this.showData.tblMSortTow.weight }}kg</span>
+            </div>
+            <div class="numWeightOneRight">
+              <span class="roomName">{{ this.showData.tblMSortTow.spare3 }}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div ref="chartContainerParent" :style="backDiv(this.back)" class="allBottomLeftOneDivSon" style="margin-left: 2%">
+        <div style="padding:2% 0 0 6%;">
+          <span :style="backF(this.back)" class="midDivText">近三天收集趋势</span>
+        </div>
+        <div id="sun" style="width:95.9%;height: 14vw;" />
+        <div style="width: 100%;height: 0.28vw;" />
+      </div>
+    </div>
+
+    <div class="bottomDiv">
+      <div :style="backDiv(this.back)" class="allBottomLeftOneDivSon" style="height: 14.3vw">
+        <div style="padding:1% 0 0 6%;">
+          <span :style="backF(this.back)" class="midDivText">人员收集实时数据</span>
+        </div>
+        <div>
+          <span :style="colorDiv(this.back)" class="tinyText" style="padding-left: 8%">序号</span>
+          <span :style="colorDiv(this.back)" class="tinyText" style="padding-left: 8%">收集时间</span>
+          <span :style="colorDiv(this.back)" class="tinyText" style="padding-left: 25%">收集人</span>
+          <span :style="colorDiv(this.back)" class="tinyText" style="padding-left: 15%">重量(kg)</span>
+        </div>
+
+        <div id="leftOne" class="scrDivOne">
+          <vue-seamless-scroll :class-option="optionHover" :data="listData" style="height: 10.5vw;float: left;">
+            <div v-for="(item, index) in listData" :key="index" style="padding-top: 2%;float: left;width: 50vw;display: flex;">
+              <div v-if=" item.id == '1'" class="scrollIdText1"><span v-text="item.id" /></div>
+              <div v-else-if=" item.id == '2'" class="scrollIdText2"><span v-text="item.id" /></div>
+              <div v-else-if=" item.id == '3'" class="scrollIdText3"><span v-text="item.id" /></div>
+              <div v-else class="scrollIdText4"><span v-text="item.id" /></div>
+
+              <div v-if="item.id >= '10'" class="scrollIdTextMor"><span v-text="item.time" /></div>
+              <div v-else class="scrollTimeText"><span v-text="item.time" /></div>
+              <div class="scrollUserText"><span v-text="item.user" /></div>
+              <div class="scrollWeightText"><span v-text="item.weight" /></div>
+            </div>
+          </vue-seamless-scroll>
+        </div>
+
+        <div id="leftTow" class="scrDivTow">
+          <vue-seamless-scroll :class-option="optionHover" :data="listData" style="height: 10.5vw;float: left">
+            <div v-for="(item, index) in listData" :key="index" style="padding-top: 2%;float: left;width: 50vw;display: flex;overflow: hidden">
+              <div v-if=" item.id == '1'" class="scrollIdText1"><span v-text="item.id" /></div>
+              <div v-else-if=" item.id == '2'" class="scrollIdText2"><span v-text="item.id" /></div>
+              <div v-else-if=" item.id == '3'" class="scrollIdText3"><span v-text="item.id" /></div>
+              <div v-else class="scrollIdText4"><span v-text="item.id" /></div>
+              <div v-if="item.id >= '10'" class="scrollIdTextMor" style="color: white"><span v-text="item.time" /></div>
+              <div v-else class="scrollTimeText" style="color: white"><span v-text="item.time" /></div>
+              <div class="scrollUserText" style="color: white"><span v-text="item.user" /></div>
+              <div class="scrollWeightText" style="color: white"><span v-text="item.weight" /></div>
+            </div>
+          </vue-seamless-scroll>
+        </div>
+
+      </div>
+
+      <div :style="backDiv(this.back)" class="allBottomLeftOneDivSon" style="margin-left: 2%">
+        <div style="padding:1% 0 0 6%;">
+          <span :style="backF(this.back)" class="midDivText">科室收集实时数据</span>
+        </div>
+        <div>
+          <span :style="colorDiv(this.back)" class="tinyText" style="padding-left: 8%">序号</span>
+          <span :style="colorDiv(this.back)" class="tinyText" style="padding-left: 8%">收集时间</span>
+          <span :style="colorDiv(this.back)" class="tinyText" style="padding-left: 25%">科室名称</span>
+          <span :style="colorDiv(this.back)" class="tinyText" style="padding-left: 15%">重量(kg)</span>
+        </div>
+        <div id="midOne" class="scrDivOne">
+          <vue-seamless-scroll :class-option="optionHover" :data="listData2" style="height: 10.5vw;float: left">
+            <div v-for="(item, index) in listData2" :key="index" style="padding-top: 2%;float: left;width: 50vw;display: flex">
+              <div v-if=" item.id == '1'" class="scrollIdText1"><span v-text="item.id" /></div>
+              <div v-else-if=" item.id == '2'" class="scrollIdText2"><span v-text="item.id" /></div>
+              <div v-else-if=" item.id == '3'" class="scrollIdText3"><span v-text="item.id" /></div>
+              <div v-else class="scrollIdText4"><span v-text="item.id" /></div>
+              <div v-if="item.id >= '10'" class="scrollIdTextMor"><span v-text="item.time" /></div>
+              <div v-else class="scrollTimeText"><span v-text="item.time" /></div>
+              <div class="scrollUserText"><span v-text="item.user" /></div>
+              <div class="scrollWeightText2"><span v-text="item.weight" /></div>
+            </div>
+          </vue-seamless-scroll>
+        </div>
+
+        <div id="midTow" class="scrDivTow">
+          <vue-seamless-scroll :class-option="optionHover" :data="listData2" style="height: 10.5vw;float: left">
+            <div v-for="(item, index) in listData2" :key="index" style="padding-top: 2%;float: left;width: 50vw;display: flex">
+              <div v-if=" item.id == '1'" class="scrollIdText1"><span v-text="item.id" /></div>
+              <div v-else-if=" item.id == '2'" class="scrollIdText2"><span v-text="item.id" /></div>
+              <div v-else-if=" item.id == '3'" class="scrollIdText3"><span v-text="item.id" /></div>
+              <div v-else class="scrollIdText4"><span v-text="item.id" /></div>
+              <div v-if="item.id >= '10'" class="scrollIdTextMor" style="color: white"><span v-text="item.time" /></div>
+              <div v-else class="scrollTimeText"style="color: white"><span v-text="item.time" /></div>
+              <div class="scrollUserText" style="color: white"><span v-text="item.user" /></div>
+              <div class="scrollWeightText2" style="color: white"><span v-text="item.weight" /></div>
+            </div>
+          </vue-seamless-scroll>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="rightDiv">
+
+      <div :style="backDiv(this.back)" style="width: 100%;border-radius: 12px">
+
+        <div style="padding:2% 0 0 6%;width: 100%">
+          <span :style="backF(this.back)" class="midDivText">医废分类占比</span>
+          <el-button
+            :style="backDiv(this.back)"
+            plain
+            style="margin-left: 50%;font-family: MicrosoftYaHei;font-size: 0.5vw;
+          color: #5B7BFE;font-weight: 400;"
+            type="primary"
+          >昨日同比增长</el-button>
+        </div>
+
+        <div id="bOne" class="borderOne">
+
+          <div id="chartOne" style="width: 96%;height: 10vw;border-radius: 150px" />
+
+        </div>
+
+        <div id="bTow" class="borderTow">
+
+          <div id="chartTow" style="width: 100%;height: 10vw;" />
+
+        </div>
+
+      </div>
+    </div>
+
+    <div class="rightDiv" style="margin-top: 1%">
+      <div :style="backDiv(this.back)" style="width: 100%;border-radius: 12px">
+        <div style="padding:2% 0 0 6%;width: 100%;">
+          <span :style="backF(this.back)" class="midDivText">近7天医废收集总量趋势</span>
+        </div>
+        <div id="text" style="width: 95.9%;height: 13vw;float: left;" />
+      </div>
+
     </div>
     <warning ref="initWarning" />
     <!--    定位的图-->
   </div>
 </template>
 <script>
-import * as echarts from 'echarts'
 import vueSeamlessScroll from 'vue-seamless-scroll'
 import '../../assets/customed'
 import request from '../../utils/request'
-import { setInterval, clearInterval } from 'timers'
 import warning from '../../../src/warning'
+import { BigNumber } from 'bignumber.js'
+import * as commonUtil from '@/utils'
+
+import { addListener, removeListener } from 'resize-detector'
 export default {
   name: 'Dashboard',
   components: {
@@ -139,526 +239,1189 @@ export default {
   },
   data() {
     return {
-      timer: null,
-      charts: '',
-      opinion: ['传染性', '损伤性', '病理性', '化学性', '药物性'],
-      listData2: [
-        {
-          'title2': '眼科',
-          'date2': '15.6kg',
-          'uName2': '2021-5-24 8:29:11'
-        }, {
-          'title2': '眼科',
-          'date2': '15.6kg',
-          'uName2': '2021-5-24 8:29:11'
-        }, {
-          'title2': '眼科',
-          'date2': '15.6kg',
-          'uName2': '2021-5-24 8:29:11'
-        }, {
-          'title2': '眼科',
-          'date2': '15.6kg',
-          'uName2': '2021-5-24 8:29:11'
-        }, {
-          'title2': '眼科',
-          'date2': '15.6kg',
-          'uName2': '2021-5-24 8:29:11'
-        }, {
-          'title2': '眼科',
-          'date2': '15.6kg',
-          'uName2': '2021-5-24 8:29:11'
-        }],
-      listData: [{
-        'title': '2021-5-24 8:29:11',
-        'date': '15.6kg',
-        'uName': '赵子星'
-      }, {
-        'title': '2021-5-24 8:29:11',
-        'date': '15.6kg',
-        'uName': '赵子星'
-      }, {
-        'title': '2021-5-24 8:29:11',
-        'date': '15.6kg',
-        'uName': '赵子星'
-      }, {
-        'title': '2021-5-24 8:29:11',
-        'date': '15.6kg',
-        'uName': '赵子星'
-      }, {
-        'title': '2021-5-24 8:29:11',
-        'date': '15.6kg',
-        'uName': '赵子星'
-      }, {
-        'title': '2021-5-24 8:29:11',
-        'date': '15.6kg',
-        'uName': '赵子星'
-      }, {
-        'title': '2021-5-24 8:29:11',
-        'date': '15.6kg',
-        'uName': '赵子星'
-      }, {
-        'title': '2021-5-24 8:29:11',
-        'date': '15.6kg',
-        'uName': '赵子星'
-      }, {
-        'title': '2021-5-24 8:29:11',
-        'date': '15.6kg',
-        'uName': '赵子星'
-      }, {
-        'title': '2021-5-24 8:29:11',
-        'date': '15.6kg',
-        'uName': '赵子星'
-      }],
-      listData3: [{
-        'item3': '眼科',
-        'date3': '2017-12-16'
-      }, {
-        'item3': '眼科',
-        'date3': '2017-12-16'
-      }, {
-        'item3': '眼科',
-        'date3': '2017-12-16'
-      }, {
-        'item3': '眼科',
-        'date3': '2017-12-16'
-      }, {
-        'item3': '眼科',
-        'date3': '2017-12-16'
-      }, {
-        'item3': '眼科',
-        'date3': '2017-12-16'
-      }, {
-        'item3': '眼科',
-        'date3': '2017-12-16'
-      }, {
-        'item3': '眼科',
-        'date3': '2017-12-16'
-      }]
+      time: '',
+      date: '',
+      back: true,
+      backOne: require('../../assets/img/day_Ranking_bg.png'),
+      backTow: require('../../assets/img/night_Ranking_bg.png'),
+      eBack: '',
+      eColor: '',
+      listData: [],
+      listData2: [],
+      fontColor: '#4E6081',
+      msg: '',
+      data8: [
+        { value: 0.0, name: '化学性废物' },
+        { value: 0.0, name: '感染性废物' },
+        { value: 0.0, name: '损伤性废物' },
+        { value: 0.0, name: '病理性废物' },
+        { value: 0.0, name: '药物性废物' }
+      ],
+      data9: [
+        { value: 0.0, name: '化学性废物' },
+        { value: 0.0, name: '感染性废物' },
+        { value: 0.0, name: '损伤性废物' },
+        { value: 0.0, name: '病理性废物' },
+        { value: 0.0, name: '药物性废物' }
+      ],
+      dayTrash: [],
+      weekTrash: [],
+      showData: {
+        year: '',
+        month: '',
+        day: '',
+        tblMSortOne: '',
+        tblMSortTow: '',
+        tblMSortThree: '',
+        seven: '',
+        threeDay: [],
+        threeMsg: []
+      }
     }
   },
   computed: {
+    csColor() {
+      return function(index) {
+        return index == true ? { color: '#1D2129' } : { color: '#E9E9EA' }
+      }
+    },
+    colorDiv() {
+      return function(index) {
+        return index == true ? { color: '#1D2129' } : { color: '#E9E9EA' }
+      }
+    },
+    backDiv() {
+      return function(index) {
+        return index == true ? { background: '#FFFFFF' } : { background: '#2A2D32' }
+      }
+    },
+    colorFont() {
+      return function(index) {
+        return index == true ? { color: '#06249C' } : { color: '#8099FF' }
+      }
+    },
+    backP() {
+      return function(index) {
+        return index == true ? { backgroundImage: 'url(' + this.backOne + ')' } : { backgroundImage: 'url(' + this.backTow + ')' }
+      }
+    },
+    backF() {
+      return function(index) {
+        return index == true ? { color: '#21306B' } : { color: '#E9E9EA' }
+      }
+    },
     optionHover() {
       return {
         step: 1, // 数值越大速度滚动越快
-        limitMoveNum: 0, // 开始无缝滚动的数据量 this.dataList.length
         hoverStop: true, // 是否开启鼠标悬停stop
-        direction: 1, // 0向下 1向上 2向左 3向右
         openWatch: true, // 开启数据实时监控刷新dom
+        limitMoveNum: 0, // 开始无缝滚动的数据量 this.dataList.length
+        direction: 1, // 0向下 1向上 2向左 3向右
         singleHeight: 21, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
         singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
-        waitTime: 1000// 单步运动停止的时间(默认值1000ms)
-      }
-    },
-    optionHover2() {
-      return {
-        step: 1, // 数值越大速度滚动越快
-        limitMoveNum: 2, // 开始无缝滚动的数据量 this.dataList.length
-        hoverStop: true, // 是否开启鼠标悬停stop
-        direction: 2, // 0向下 1向上 2向左 3向右
-        openWatch: true, // 开启数据实时监控刷新dom
-        singleHeight: 0, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
-        singleWidth: 150, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
-        waitTime: 1000// 单步运动停止的时间(默认值1000ms)
+        waitTime: 0// 单步运动停止的时间(默认值1000ms)
       }
     }
   },
-  watch: {},
+  watch: {
+    // "$store.state.app.sidebar.opened"(){
+    //   setTimeout(()=>{
+    //     this.sun.resize()
+    //     this.document.getElementById('chartOne').resize()
+    //     this.document.getElementById('chartTow').resize()
+    //     this.text.resize()
+    //   },200)
+    // }
+  },
   mounted() {
     this.$refs.initWarning.init()
-
-    this.createSetInterval() // 开启定时器
-
-    var w = window.innerWidth ||
-      document.documentElement.clientWidth ||
-      document.body.clientWidth
-
-    var h = window.innerHeight ||
-      document.documentElement.clientHeight ||
-      document.body.clientHeight
-    // x.innerHTML="浏览器的内部窗口宽度：" + w + "，高度：" + h + "。"
-    this.divStyle = 'height: 1800px'
-
-    request.post('dashboard/getStatistics', {
-      data: ''
-    }).then(res => {
-      const month = this.$echarts.init(document.getElementById('month'), 'customed')
-      month.setOption({
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        title: {
-          text: '月医废分析',
-          subtext: res.MonthStart + '至' + res.nowdate,
-          left: 'left'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          color: '#000000',
-          orient: 'vertical',
-          x: 'left',
-          y: 'bottom'
-        },
-        series: [
-          {
-            name: '占比',
-            type: 'pie',
-            center: ['62%', '50%'],
-            radius: ['50%', '75%'],
-            avoidLabelOverlap: false,
-            label: {
-              show: false,
-              position: 'center'
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: '14',
-                fontWeight: 'bold'
-              }
-            },
-            labelLine: {
-              show: false
-            },
-            data: res.monthList
-          }
-        ]
-      })
-      const day = this.$echarts.init(document.getElementById('day'), 'customed')
-      day.setOption({
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        title: {
-          text: '日医废分析',
-          subtext: res.nowdate,
-          left: 'left'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          color: '#000000',
-          orient: 'vertical',
-          x: 'left',
-          y: 'bottom'
-        },
-        series: [
-          {
-            name: '占比',
-            type: 'pie',
-            center: ['60%', '50%'],
-            radius: ['50%', '75%'],
-            avoidLabelOverlap: false,
-            label: {
-              show: false,
-              position: 'center'
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: '22',
-                fontWeight: 'bold'
-              }
-            },
-            labelLine: {
-              show: false
-            },
-            data: res.dayList
-          }
-        ]
-      })
-      // 近十五天 收集趋势
-      const inOut15 = this.$echarts.init(document.getElementById('inOut15'), 'customed')
-      inOut15.setOption({
-        title: {
-          text: '近15天医废收集趋势'
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#a3cf62'
-            }
-          }
-        },
-        legend: {
-          data: ['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5']
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        xAxis: [
-          {
-            type: 'category',
-            boundaryGap: false,
-            data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value'
-          }
-        ],
-        series: [
-          {
-            type: 'line',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            label: {
-              show: true,
-              position: 'top'
-            },
-            areaStyle: {
-              opacity: 0.9,
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                {
-                  offset: 0,
-                  color: '#769149'
-                }
-              ])
-            },
-            emphasis: {
-              focus: 'series'
-            },
-            data: res.inOut15
-          }
-        ]
-      })
-      // 出入库
-      const myChart1 = this.$echarts.init(document.getElementById('histogram'), 'customed')
-      myChart1.setOption({
-        grid: {
-          left: '13%',
-          right: '13%',
-          bottom: '6%'
-        },
-        title: {
-          text: '出入库情况',
-          subtext: res.Monday + '至' + res.nowdate,
-          left: 'left'
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            crossStyle: {
-              color: '#999'
-            }
-          }
-        },
-        toolbox: {
-          feature: {
-            dataView: { show: true, readOnly: true },
-            magicType: { show: true, type: ['line', 'bar'] },
-            restore: { show: true },
-            saveAsImage: { show: true }
-          }
-        },
-        legend: {
-          data: ['医废收集', 'Precipitation', '医废出库']
-        },
-        xAxis: [
-          {
-            type: 'category',
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
-            axisPointer: {
-              type: 'shadow'
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value',
-            min: 0,
-            max: 2400,
-            interval: 200,
-            axisLabel: {
-              formatter: '{value} kg'
-            }
-          },
-          {
-            type: 'value',
-            min: 0,
-            max: 2400,
-            interval: 200,
-            axisLabel: {
-              formatter: '{value} kg'
-            }
-          }
-        ],
-        series: [
-          {
-            name: '医废收集',
-            type: 'bar',
-            data: res.collectWeight
-          },
-
-          {
-            name: '医废出库',
-            type: 'line',
-            yAxisIndex: 1,
-            data: res.outWeight
-          }
-        ]
-      })
-
-      // 折线图
-      const sun = this.$echarts.init(document.getElementById('sun'), 'customed')
-      sun.setOption({
-        // title: {
-        //   text: '医废日报表',
-        //   subtext: res.nowdate
-        // },
-        tooltip: {
-          trigger: 'axis'
-        },
-        legend: {
-          data: res.LineMap.nameArray
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: res.LineMap.timeArray
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: res.LineMap.list
-      })
-    })
+    addListener(this.$refs.chartContainerParent, this.resize)
+    this.realTime()
+    this.colo()
+    this.dateShow()
+    this.lestInt()
+  },
+  created() {
+    this.dateFormat()
   },
   beforeDestroy() {
-    clearInterval(this.timer)
+    this.dataDestroy()
   },
   methods: {
-    createSetInterval() {
-      this.stopSetInterval()
-      const _this = this
-      this.timer = setInterval(() => {
-        _this.realTime()
-      }, 1000 * 60 * 15) // 15分钟请求一次
+    resize() {
+      if (this.$echarts(document.getElementById('sun')).resize) {
+        this
+          .$echarts(document.getElementById('sun')).resize()
+      }
     },
-    realTime() { // 向后台发请求
-      request.post('dashboard/realTime', {
+    dataDestroy() {
+      if (this.timer) {
+        clearInterval(this.timer) // 在Vue实例销毁前，清除我们的定时器
+      }
+    },
+    dateShow() {
+      this.timer = setInterval(() => {
+        this.dateFormat()
+        this.realTime()
+      }, 200000)
+    },
+    dateFormat() {
+      this.date = new Date()
+      const year = this.date.getFullYear()
+      const month = this.date.getMonth() + 1 < 10 ? '0' + (this.date.getMonth() + 1) : this.date.getMonth() + 1
+      const day = this.date.getDate() < 10 ? '0' + this.date.getDate() : this.date.getDate()
+      const hours = this.date.getHours() < 10 ? '0' + this.date.getHours() : this.date.getHours()
+      const minutes = this.date.getMinutes() < 10 ? '0' + this.date.getMinutes() : this.date.getMinutes()
+      const seconds = this.date.getSeconds() < 10 ? '0' + this.date.getSeconds() : this.date.getSeconds()
+      this.time = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds
+    },
+    daytime() {
+      this.$echarts.dispose(document.getElementById('sun'))
+      this.$echarts.dispose(document.getElementById('chartOne'))
+      this.$echarts.dispose(document.getElementById('chartTow'))
+      this.borderType(this.back)
+      if (this.back === true) {
+        this.$refs.on.style.display = 'none'
+        this.$refs.off.style.display = 'block'
+        this.$refs.topDiv.style.background = '#212429'
+        this.back = false
+        this.eBack = 'dark'
+        this.eColor = '#2A2D32'
+        document.getElementById('leftOne').style.zIndex = '0'
+        document.getElementById('leftTow').style.zIndex = '1'
+        document.getElementById('midOne').style.zIndex = '0'
+        document.getElementById('midTow').style.zIndex = '1'
+        this.fontColor = '#CDD0D2'
+      } else {
+        this.$refs.on.style.display = 'block'
+        this.$refs.off.style.display = 'none'
+        this.$refs.topDiv.style.background = '#F3F4FD'
+        this.back = true
+        this.eBack = ''
+        this.eColor = ''
+        document.getElementById('leftOne').style.zIndex = '1'
+        document.getElementById('leftTow').style.zIndex = '0'
+        document.getElementById('midOne').style.zIndex = '1'
+        document.getElementById('midTow').style.zIndex = '0'
+        this.fontColor = '#4E6081'
+      }
+      this.colo()
+    },
+    colo() {
+      request.post('/dashboard/realTime', {
         data: ''
       }).then(res => {
-        this.$message(res.msg)
+        this.showData.threeDay = []
+        // 年月日数据
+        this.showData.year = res.yearWeight
+        this.showData.day = res.dayWeight
+        this.showData.month = res.monthWeight
+        // //近三天
+        // 实时收集数据
+        this.listData = []
+        this.listData2 = []
+        for (let i = 0; i < res.realTimeCollecting.length; i++) {
+          const j = {
+            id: i + 1,
+            time: res.realTimeCollecting[i].collectdate,
+            user: res.realTimeCollecting[i].spare3,
+            weight: res.realTimeCollecting[i].weight + 'kg'
+          }
+          const l = {
+            id: i + 1,
+            time: res.officeRealTimeCollecting[i].collectdate,
+            user: res.officeRealTimeCollecting[i].spare3,
+            weight: res.officeRealTimeCollecting[i].weight + 'kg'
+          }
+          this.listData2.push(l)
+          this.listData.push(j)
+        }
+        // 年医废收集排序三个
+        for (var a = 0; a < res.tblMSort.length; a++) {
+          if (res.tblMSort[a].infoid == 1) {
+            this.showData.tblMSortOne = res.tblMSort[a]
+          } else if (res.tblMSort[a].infoid == 2) {
+            this.showData.tblMSortTow = res.tblMSort[a]
+          } else {
+            this.showData.tblMSortThree = res.tblMSort[a]
+          }
+        }
+        // 近三天趋势
+        const sun = this.$echarts.init(document.getElementById('sun'))
+        sun.setOption({
+          backgroundColor: this.eColor,
+          xAxis: {
+            type: 'category',
+            data: [res.three[0].collectdate, res.three[1].collectdate, res.three[2].collectdate]
+          },
+          grid: {
+            x: 45,
+            y: 20,
+            bottom: 25,
+            right: 25
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+              data: [res.three[0].weight, res.three[1].weight, res.three[2].weight],
+              type: 'line',
+              smooth: true
+            }
+          ]
+        })
+        // 天分类
+        const chartOne = this.$echarts.init(document.getElementById('chartOne'))
+        for (let m = 0; m < this.data8.length; m++) {
+          for (let i = 0; i < res.dayProportion.length; i++) {
+            if (this.data8[m].name === res.dayProportion[i].spare3) {
+              console.log(res.dayProportion[i].weight)
+              this.data8[m].value = res.dayProportion[i].weight
+            }
+          }
+        }
+        const list = this.data8
+        chartOne.setOption({
+          title: {
+            top: '10%',
+            text: '日医废占比',
+            textStyle: {
+              fontSize: 17,
+              color: this.fontColor,
+              fontWeight: '700',
+              fontFamily: 'MicrosoftYaHei'
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}: {c} ({d}%)'
+          },
+          legend: {
+            right: '40%',
+            top: '35%',
+            itemWidth: 15, // 图例图形宽度
+            itemHeight: 15,
+            itemGap: 30, // 图例图标与文字间的间距
+            textStyle: {
+              fontSize: 14, // 图例文字字体大小
+              color: this.fontColor
+            },
+            formatter: function(name) { // 该函数用于设置图例显示后的百分比
+              console.log(name)
+              const data = list
+              console.log(data)
+              let total = 0.00
+              let value
+              list.forEach((item) => {
+                total = BigNumber(total).plus(BigNumber(item.value)).toNumber()// 结果需要用toNumber转为普通数字
+                console.log(total)
+                if (item.name == name) {
+                  value = BigNumber(item.value)
+                }
+              })
+              const p = Math.round((BigNumber((value / total) * 100))) // 求出百分比
+              if (value == 0) {
+                return `${name}  ${0 + '.0'}%`
+              } else {
+                return `${name}  ${p}%` // 返回出图例所显示的内容是名称+百分比
+              }
+            }
+          },
+          series: [
+            {
+              type: 'pie',
+              radius: ['30%', '60%'],
+              left: '72%',
+              avoidLabelOverlap: false,
+              label: {
+                show: false,
+                position: 'center'
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '20',
+                  itemGap: 20
+                }
+              },
+              data: this.data8
+            }
+          ]
+        })
+        // 七天分类
+        for (let m = 0; m < this.data9.length; m++) {
+          for (let i = 0; i < res.weekProportion.length; i++) {
+            if (this.data9[m].name === res.weekProportion[i].spare3) {
+              this.data9[m].value = res.weekProportion[i].weight
+            }
+          }
+        }
+        const listOne = this.data9
+        const chartTow = this.$echarts.init(document.getElementById('chartTow'))
+        chartTow.setOption({
+          title: {
+            left: '60%',
+            top: '10%',
+            text: '周医废占比',
+            textStyle: {
+              fontSize: 17,
+              color: this.fontColor,
+              fontWeight: '700',
+              fontFamily: 'MicrosoftYaHei'
+            }
+          },
+          tooltip: {
+            marginLeft: '20%',
+            trigger: 'item',
+            formatter: '{b}: {c} ({d}%)'
+          },
+          legend: {
+            left: '40%',
+            top: '35%',
+            itemWidth: 15, // 图例图形宽度
+            itemHeight: 15,
+            itemGap: 30, // 图例图标与文字间的间距
+            textStyle: {
+              marginLeft: '20%',
+              fontSize: 14, // 图例文字字体大小
+              color: this.fontColor
+            },
+            formatter: function(name) { // 该函数用于设置图例显示后的百分比
+              const data = listOne
+              let total = 0
+              let value
+              listOne.forEach((item) => {
+                total = BigNumber(total).plus(BigNumber(item.value)).toNumber()// 结果需要用toNumber转为普通数字
+                if (item.name == name) {
+                  value = BigNumber(item.value)
+                }
+              })
+              const p = Math.round((BigNumber((value / total) * 100))) // 求出百分比
+              if (value == 0) {
+                return `${name}   ${0 + '.0'}%    `
+              } else {
+                return `${name}   ${p}%    ` // 返回出图例所显示的内容是名称+百分比
+              }
+            }
+          },
+          series: [
+            {
+              type: 'pie',
+              radius: ['30%', '60%'],
+              right: '72%',
+              avoidLabelOverlap: false,
+              label: {
+                show: false,
+                position: 'center'
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '20',
+                  itemGap: 20
+                }
+              },
+              data: this.data9
+            }
+          ]
+        })
+
+        // 医疗废弃七天
+        const text = this.$echarts.init(document.getElementById('text'))
+        window.onresize = function() {
+          chartOne.resize()
+          chartTow.resize()
+          sun.resize()
+          text.resize()
+        }
+        text.setOption({
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              crossStyle: {
+                color: '#999'
+              }
+            }
+          },
+          grid: {
+            x: 50,
+            y: 65,
+            bottom: 24,
+            right: 60
+          },
+          toolbox: {
+            feature: {
+              dataView: { show: true, readOnly: false },
+              magicType: { show: true, type: ['line', 'bar'] },
+              restore: { show: true },
+              saveAsImage: { show: true }
+            }
+          },
+          legend: {
+            data: ['医疗废弃物总重量', '新冠类废弃物'],
+            textStyle: {
+              fontSize: 14, // 图例文字字体大小
+              color: this.fontColor
+            }
+          },
+          xAxis: [
+            {
+              type: 'category',
+              data: [res.seven[0].collectdate, res.seven[1].collectdate, res.seven[2].collectdate, res.seven[3].collectdate,
+                res.seven[4].collectdate, res.seven[5].collectdate, res.seven[6].collectdate],
+              axisPointer: {
+                type: 'shadow'
+              }
+            }
+          ],
+          yAxis: [
+            {
+              type: 'value',
+              name: '医疗废弃物总重量',
+              interval: 150,
+              axisLabel: {
+                formatter: '{value} kg'
+              }
+            },
+            {
+              type: 'value',
+              name: '新冠类废弃物',
+              interval: 50,
+              axisLabel: {
+                formatter: '{value} kg'
+              }
+            }
+          ],
+          series: [
+            {
+              name: '医疗废弃物总重量',
+              type: 'bar',
+              tooltip: {
+                valueFormatter: function(value) {
+                  return value + ' kg'
+                }
+              },
+              data: [res.seven[0].weight, res.seven[1].weight, res.seven[2].weight, res.seven[3].weight,
+                res.seven[4].weight, res.seven[5].weight, res.seven[6].weight]
+            },
+            {
+              name: '新冠类废弃物',
+              type: 'line',
+              yAxisIndex: 1,
+              tooltip: {
+                valueFormatter: function(value) {
+                  return value + ' kg'
+                }
+              },
+              data: [res.disease[0].weight, res.disease[1].weight, res.disease[2].weight, res.disease[3].weight,
+                res.disease[4].weight, res.disease[5].weight, res.disease[6].weight]
+            }
+          ]
+        })
       })
     },
-    // 关闭轮询
-    stopSetInterval() {
-      if (this.timer) {
-        clearInterval(this.timer)
-        this.timer = null
+    lestInt() {
+      for (let i = 0; i < 15; i++) {
+        const j = {
+          id: i + 1,
+          time: 123,
+          user: '赵子星',
+          weight: '10.5'
+        }
+        this.listData.push(j)
+        this.listData2.push(j)
       }
+    },
+    borderType(boolean) {
+      if (boolean == true) {
+        document.getElementById('bOne').style.borderTop = '1px solid #484849'
+        document.getElementById('bOne').style.borderRight = '1px solid #484849'
+        document.getElementById('bOne').style.borderBottom = '1px solid #484849'
+
+        document.getElementById('bTow').style.borderTop = '1px solid #484849'
+        document.getElementById('bTow').style.borderLeft = '1px solid #484849'
+        document.getElementById('bTow').style.borderBottom = '1px solid #484849'
+      } else {
+        document.getElementById('bOne').style.borderTop = '1px solid #E4E4E4'
+        document.getElementById('bOne').style.borderRight = '1px solid #E4E4E4'
+        document.getElementById('bOne').style.borderBottom = '1px solid #E4E4E4'
+
+        document.getElementById('bTow').style.borderTop = '1px solid #E4E4E4'
+        document.getElementById('bTow').style.borderLeft = '1px solid #E4E4E4'
+        document.getElementById('bTow').style.borderBottom = '1px solid #E4E4E4'
+      }
+    },
+    realTime() { // 向后台发请求
+      request.post('/dashboard/realTime', {
+        data: ''
+      }).then(res => {
+        this.showData.threeDay = []
+        // 年月日数据
+        this.showData.year = res.yearWeight
+        this.showData.day = res.dayWeight
+        this.showData.month = res.monthWeight
+        // 近三天
+        var num = 3
+        for (var i = 0; i < res.three.length; i++) {
+          num--
+          this.showData.threeDay.push(res.three[num].collectdate)
+          this.showData.threeMsg.push(res.three[num].weight)
+        }
+        // 年医废收集排序三个
+        for (var a = 0; a < res.tblMSort.length; a++) {
+          if (res.tblMSort[a].infoid == 1) {
+            this.showData.tblMSortOne = res.tblMSort[a]
+          } else if (res.tblMSort[a].infoid == 2) {
+            this.showData.tblMSortTow = res.tblMSort[a]
+          } else {
+            this.showData.tblMSortThree = res.tblMSort[a]
+          }
+        }
+        // 实时收集数据
+        this.listData = []
+        this.listData2 = []
+        for (let i = 0; i < res.realTimeCollecting.length; i++) {
+          const j = {
+            id: i + 1,
+            time: res.realTimeCollecting[i].collectdate,
+            user: res.realTimeCollecting[i].spare3,
+            weight: res.realTimeCollecting[i].weight + 'kg'
+          }
+          const l = {
+            id: i + 1,
+            time: res.officeRealTimeCollecting[i].collectdate,
+            user: res.officeRealTimeCollecting[i].spare3,
+            weight: res.officeRealTimeCollecting[i].weight + 'kg'
+          }
+          this.listData2.push(l)
+          this.listData.push(j)
+        }
+        // 近三天趋势
+        const sun = this.$echarts.init(document.getElementById('sun'))
+        sun.setOption({
+          backgroundColor: this.eColor,
+          xAxis: {
+            type: 'category',
+            data: [res.three[0].collectdate, res.three[1].collectdate, res.three[2].collectdate]
+          },
+          grid: {
+            x: 45,
+            y: 20,
+            bottom: 25,
+            right: 25
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+              data: [res.three[0].weight, res.three[1].weight, res.three[2].weight],
+              type: 'line',
+              smooth: true
+            }
+          ]
+        })
+        // 天分类
+        const chartOne = this.$echarts.init(document.getElementById('chartOne'))
+        for (let m = 0; m < this.data8.length; m++) {
+          for (let i = 0; i < res.dayProportion.length; i++) {
+            if (this.data8[m].name === res.dayProportion[i].spare3) {
+              console.log(res.dayProportion[i].weight)
+              this.data8[m].value = res.dayProportion[i].weight
+            }
+          }
+        }
+        const list = this.data8
+        chartOne.setOption({
+          title: {
+            top: '10%',
+            text: '日医废占比',
+            textStyle: {
+              fontSize: 17,
+              color: this.fontColor,
+              fontWeight: '700',
+              fontFamily: 'MicrosoftYaHei'
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}: {c} ({d}%)'
+          },
+          legend: {
+            right: '40%',
+            top: '35%',
+            itemWidth: 15, // 图例图形宽度
+            itemHeight: 15,
+            itemGap: 30, // 图例图标与文字间的间距
+            textStyle: {
+              fontSize: 14, // 图例文字字体大小
+              color: this.fontColor
+            },
+            formatter: function(name) { // 该函数用于设置图例显示后的百分比
+              console.log(name)
+              const data = list
+              console.log(data)
+              let total = 0.00
+              let value
+              list.forEach((item) => {
+                total = BigNumber(total).plus(BigNumber(item.value)).toNumber()// 结果需要用toNumber转为普通数字
+                console.log(total)
+                if (item.name == name) {
+                  value = BigNumber(item.value)
+                }
+              })
+              const p = Math.round((BigNumber((value / total) * 100))) // 求出百分比
+              if (value == 0) {
+                return `${name}  ${0 + '.0'}%`
+              } else {
+                return `${name}  ${p}%` // 返回出图例所显示的内容是名称+百分比
+              }
+            }
+          },
+          series: [
+            {
+              type: 'pie',
+              radius: ['30%', '60%'],
+              left: '72%',
+              avoidLabelOverlap: false,
+              label: {
+                show: false,
+                position: 'center'
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '20',
+                  itemGap: 20
+                }
+              },
+              data: this.data8
+            }
+          ]
+        })
+        // 七天分类
+        for (let m = 0; m < this.data9.length; m++) {
+          for (let i = 0; i < res.weekProportion.length; i++) {
+            if (this.data9[m].name === res.weekProportion[i].spare3) {
+              this.data9[m].value = res.weekProportion[i].weight
+            }
+          }
+        }
+        const listOne = this.data9
+        const chartTow = this.$echarts.init(document.getElementById('chartTow'))
+        chartTow.setOption({
+          title: {
+            left: '60%',
+            top: '10%',
+            text: '周医废占比',
+            textStyle: {
+              fontSize: 17,
+              color: this.fontColor,
+              fontWeight: '700',
+              fontFamily: 'MicrosoftYaHei'
+            }
+          },
+          tooltip: {
+            marginLeft: '20%',
+            trigger: 'item',
+            formatter: '{b}: {c} ({d}%)'
+          },
+          legend: {
+            left: '40%',
+            top: '35%',
+            itemWidth: 15, // 图例图形宽度
+            itemHeight: 15,
+            itemGap: 30, // 图例图标与文字间的间距
+            textStyle: {
+              marginLeft: '20%',
+              fontSize: 14, // 图例文字字体大小
+              color: this.fontColor
+            },
+            formatter: function(name) { // 该函数用于设置图例显示后的百分比
+              const data = listOne
+              let total = 0
+              let value
+              listOne.forEach((item) => {
+                total = BigNumber(total).plus(BigNumber(item.value)).toNumber()// 结果需要用toNumber转为普通数字
+                if (item.name == name) {
+                  value = BigNumber(item.value)
+                }
+              })
+              const p = Math.round((BigNumber((value / total) * 100))) // 求出百分比
+              if (value == 0) {
+                return `${name}  ${0 + '.0'}%`
+              } else {
+                return `${name}  ${p}%` // 返回出图例所显示的内容是名称+百分比
+              }
+            }
+          },
+          series: [
+            {
+              type: 'pie',
+              radius: ['30%', '60%'],
+              right: '72%',
+              avoidLabelOverlap: false,
+              label: {
+                show: false,
+                position: 'center'
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '20',
+                  itemGap: 20
+                }
+              },
+              data: this.data9
+            }
+          ]
+        })
+
+        // 医疗废弃七天
+        const text = this.$echarts.init(document.getElementById('text'))
+        window.onresize = function() {
+          chartOne.resize()
+          chartTow.resize()
+          sun.resize()
+          text.resize()
+        }
+        text.setOption({
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              crossStyle: {
+                color: '#999'
+              }
+            }
+          },
+          grid: {
+            x: 70,
+            y: 60,
+            bottom: 24,
+            right: 60
+          },
+          toolbox: {
+            feature: {
+              dataView: { show: true, readOnly: false },
+              magicType: { show: true, type: ['line', 'bar'] },
+              restore: { show: true },
+              saveAsImage: { show: true }
+            }
+          },
+          legend: {
+            data: ['医疗废弃物总重量', '新冠类废弃物'],
+            textStyle: {
+              fontSize: 14, // 图例文字字体大小
+              color: this.fontColor
+            }
+          },
+          xAxis: [
+            {
+              type: 'category',
+              data: [res.seven[0].collectdate, res.seven[1].collectdate, res.seven[2].collectdate, res.seven[3].collectdate,
+                res.seven[4].collectdate, res.seven[5].collectdate, res.seven[6].collectdate],
+              axisPointer: {
+                type: 'shadow'
+              }
+            }
+          ],
+          yAxis: [
+            {
+              type: 'value',
+              name: '医疗废弃物总重量',
+              interval: 150,
+              axisLabel: {
+                formatter: '{value} kg'
+              }
+            },
+            {
+              type: 'value',
+              name: '新冠类废弃物',
+              interval: 50,
+              axisLabel: {
+                formatter: '{value} kg'
+              }
+            }
+          ],
+          series: [
+            {
+              name: '医疗废弃物总重量',
+              type: 'bar',
+              tooltip: {
+                valueFormatter: function(value) {
+                  return value + ' kg'
+                }
+              },
+              data: [res.seven[0].weight, res.seven[1].weight, res.seven[2].weight, res.seven[3].weight,
+                res.seven[4].weight, res.seven[5].weight, res.seven[6].weight]
+            },
+            {
+              name: '新冠类废弃物',
+              type: 'line',
+              yAxisIndex: 1,
+              tooltip: {
+                valueFormatter: function(value) {
+                  return value + ' kg'
+                }
+              },
+              data: [res.disease[0].weight, res.disease[1].weight, res.disease[2].weight, res.disease[3].weight,
+                res.disease[4].weight, res.disease[5].weight, res.disease[6].weight]
+            }
+          ]
+        })
+      })
+    },
+    add(a, b) {
+      a = BigNumber(a)
+      b = BigNumber(b)
+      return a.plus(b).toNumber() // 结果需要用toNumber转为普通数字
     }
   }
 }
 </script>
+
 <style>
-/* // 去掉滚动条的默认样式 */
-.seamless-warp {
-  margin-top: 5%;
+.divTop {
+  white-space: nowrap;
+  display: flex;
+  float: left;
   width: 100%;
-  height: 70%;
-  overflow: hidden;
 }
-.seamless-warp2 {
-  margin-top: 5%;
-  width: 100%;
-  height: 70%;
-  overflow: hidden;
+
+.topDivOne {
+  /*background: #add0a9;*/
+  padding: 0.2% 20% 0.4% 1.8%;
+}
+
+.hText {
+  font-family: YouSheBiaoTiHei;
+  font-size: 2.2vw;
+  color: #1D2129;
+}
+
+.topDivTow {
+  /*background: #0a76a4;*/
+  margin: auto auto auto 4%;
+}
+
+.topDivThree {
+  /*background: #0a76a4;*/
+  margin: auto 25% auto auto;
+}
+
+.timeText {
+  font-family: MicrosoftYaHei;
+  font-size: 1vw;
+  color: #1D2129;
 }
 </style>
-<style lang="scss" scoped>
-.warp {
-  width: 100%;
-  height: 300px;
-  //margin: 0 auto;
+
+<style>
+.towDiv {
+  width: 60%;
+  background: #FFFFFF;
+  margin-left: 1.3%;
+  border-radius: 12px;
+  float: left;
+}
+
+.weightText {
+  font-family: MicrosoftYaHei-Bold;
+  font-size: 2.2vw;
+  color: #1D2129;
+  font-weight: 700;
+}
+
+.weightText2 {
+  margin-top: 5%;
+  font-family: MicrosoftYaHei;
+  font-size: 1vw;
+  color: #06249C;
+  font-weight: 400;
+  float: left
+}
+
+.weightImg {
+  width: 5.4vw;
+  margin-left: 7%
+}
+
+.towDivSon {
+  position: relative;
+  float: left;
+  width: 33.3%;
+  padding: 3% 2% 3% 2%;
+}
+
+.towDivSon:after {
+  content: '';
+  position: absolute;
+  height: 50%;
+  border-right: 1px solid #D3D7EA;
+  top: 10%;
+  right: 0%;
+}
+
+.towDivThree {
+  position: relative;
+  float: left;
+  width: 33.3%;
+  padding: 3% 2% 3% 2%;
+}
+
+.midDiv {
+  margin-top: 0.5%;
+  margin-left: 1.3%;
+  width: 60%;
+  border-radius: 12px;
+  float: left;
+  display: flex;
+}
+</style>
+
+<style>
+
+#building {
+  height: 13.5vw;
+  width: 27.1vw;
+  background: url("../../assets/img/day_Ranking_bg.png");
+  background-size: 100% 100%;
+}
+
+.allBottomLeftDiv {
+  width: 33.3%;
+  height: 100%;
+  float: left;
+  text-align: center;
+  margin: auto
+}
+
+.allBottomLeftOneDivSon {
+  width: 49%;
+  border-radius: 12px;
+  background: white
+}
+
+.numWeightTowTop {
+  margin-top: 40%;
+  width: 64%;
+  height: 15%;
+  margin-left: 18%;
+  overflow: hidden
+}
+
+.midDivText {
+  font-family: MicrosoftYaHei-Bold;
+  font-size: 1.1vw;
+  color: #21306B;
+  font-weight: 700;
+}
+
+.weightTop {
+  font-size: 0.8vw;
+  font-family: MicrosoftYaHei-Bold;
+  color: #FE6355;
+  font-weight: 700;
+}
+
+.roomName {
+  font-size: 0.6vw;
+  font-family: MicrosoftYaHei;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight: 400;
+  overflow: hidden
+}
+
+.numWeightOneTop {
+  width: 50%;
+  height: 10%;
+  margin-top: 65%;
+  margin-left: 35%;
+  overflow: hidden
+}
+
+.numWeightOneLeft {
+  width: 38%;
+  height: 15%;
+  margin-left: 41.5%;
+  margin-top: 3%;
+  overflow: hidden
+}
+
+.weightTow {
+  font-family: MicrosoftYaHei-Bold;
+  font-size: 1vw;
+  color: #FE6355;
+  font-weight: 700;
+}
+
+.roomNameTow {
+  font-family: MicrosoftYaHei;
+  font-size: 0.9vw;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight: 400;
+}
+
+.numWeightOneMid {
+  width: 50%;
+  margin-left: 25%;
+  margin-top: 5%;
+  height: 15%;
+  overflow: hidden
+}
+
+.numWeightThreeTop {
+  width: 50%;
+  height: 10%;
+  margin-top: 70%;
+  margin-left: 15%;
   overflow: hidden;
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
-    &.ul-item {
-      display: flex;
-      .li-item {
-        width: 100px;
-        height: 270px;
-        margin-right: 10px;
-        line-height: 200px;
-        background-color: #2c8ff1;
-        color: #fff;
-        text-align: center;
-        font-size: 15px;
-        margin-top: 15px;
-        border-radius: 10px;
-      }
-    }
-  }
 }
-.DIV_analysis {
-  float:left;
-  width: 33%;
-  height: 320px;
+
+.numWeightOneRight {
+  width: 37%;
+  height: 14%;
+  margin-left: 21%;
+  margin-top: 5%;
+  overflow: hidden
 }
-.Day_month_analysis {
-  //border: 1px solid #808080;
-  //box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  //border-radius: 10px;
-  ////min-width: 50%;
-  ////max-width: 110%;
-  ////height: 300px;
-  ///*background-color: #f6f7f8;*/
-  //margin: 10px 10px 0px 10px;
+</style>
+
+<style>
+.bottomDiv {
+  width: 60%;
+  border-radius: 12px;
+  float: left;
+  display: flex;
+  margin-top: 0.5%;
+  margin-left: 1.3%;
 }
-.inOut_15_stock {
-  border: 1px solid #808080;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  min-width: 50%;
-  max-width: 110%;
-  height: 300px;
-  /*background-color: #f6f7f8;*/
-  margin: 10px 10px 0px 10px;
+.tinyText{
+  font-family: MicrosoftYaHei;
+  font-size: 0.8vw;
+  color: #757590;
+  font-weight: 400;
 }
-.people_Department_work {
-  border: 1px solid #808080;
-  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  min-width: 50%;
-  max-width: 110%;
-  height: 300px;
-  /*background-color: #f6f7f8;*/
-  margin: 10px 10px 0px 10px;
+.scrollIdText1{
+  font-family: MicrosoftYaHei;
+  background: #FE6355;
+  font-size: 0.8vw;
+  padding:0.5% 1% 0.5% 1%;
+  margin-left: 4.5%;
+  border-radius: 50px;
+  font-weight: 400;
+}
+.scrollIdText2{
+  font-family: MicrosoftYaHei;
+  background: #5B7BFE;
+  font-size: 0.8vw;
+  padding:0.5% 1% 0.5% 1%;
+  margin-left: 4.5%;
+  border-radius: 50px;
+  font-weight: 400;
+}
+.scrollIdText3{
+  font-family: MicrosoftYaHei;
+  background: #1BC39E;
+  font-size: 0.8vw;
+  padding:0.5% 1% 0.5% 1%;
+  margin-left: 4.5%;
+  border-radius: 50px;
+  font-weight: 400;
+}
+.scrollIdText4{
+  /*max-width: 1.5vw;*/
+  font-family: MicrosoftYaHei;
+  background: #F1F2F6;
+  font-size: 0.8vw;
+  padding:0.5% 1% 0.5% 1%;
+  margin-left: 4.5%;
+  border-radius: 50px;
+  font-weight: 400;
+}
+.scrollIdTextMor{
+  padding-top: 0.5%;
+  margin-left: 4%;
+  font-family: MicrosoftYaHei;
+  font-size: 0.8vw;
+  color: #1D2129;
+  font-weight: 400;
+}
+.scrollTimeText{
+  padding-top: 0.5%;
+  margin-left: 5%;
+  font-family: MicrosoftYaHei;
+  font-size: 0.8vw;
+  color: #1D2129;
+  font-weight: 400;
+}
+.scrollUserText{
+  padding-top: 0.5%;
+  margin-left: 5.4%;
+  font-family: MicrosoftYaHei;
+  font-size: 0.8vw;
+  color: #1D2129;
+  font-weight: 400;
+}
+.scrollWeightText{
+  padding-top: 0.5%;
+  position: absolute;
+  margin-left: 46%;
+  font-family: MicrosoftYaHei-Bold;
+  font-size: 0.8vw;
+  color: #1D2129;
+  font-weight: 700;
+}
+.scrollWeightText2{
+  padding-top: 0.5%;
+  position: absolute;
+  margin-left: 47%;
+  font-family: MicrosoftYaHei-Bold;
+  font-size: 0.8vw;
+  color: #1D2129;
+  font-weight: 700;
+}
+.scrDivOne{
+  background: #FFFFFF;
+  position:absolute;
+  height: 10.5vw;
+  overflow: hidden;
+  z-index: 1;
+  width: 29.4%;
+}
+.scrDivTow{
+  background:#2A2D32;
+  position:absolute;
+  height: 10.5vw;
+  overflow: hidden;
+  z-index: 0;
+  width: 29.4%;
+}
+</style>
+
+<style>
+.rightDiv{
+  width: 36%;
+  display: flex;
+  margin-left: 63%;
+}
+.borderOne{
+  border-radius: 0px 100px 100px 0px;
+  border-right: 1px solid #E4E4E4;
+  border-top: 1px solid #E4E4E4;
+  border-bottom: 1px solid #E4E4E4;
+  margin: 2% 2% 0% 2% ;
+}
+.borderTow{
+  border-radius: 100px 0px 0px 100px;
+  border-left: 1px solid #E4E4E4;
+  border-top: 1px solid #E4E4E4;
+  border-bottom: 1px solid #E4E4E4;
+  margin: 3% 2% 4% 2% ;
 }
 </style>

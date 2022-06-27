@@ -246,7 +246,7 @@ export default {
       tableHeight: window.innerHeight * 0.72, // 表格高度
       tableData: [],
       nowPage: 1,
-      pageSize: 10,
+      pageSize: 16,
       totalCum: 0,
       searchStr: '',
       dialogFormVisible: false,

@@ -52,8 +52,8 @@
           stripe
           :data="tableData"
           :height="tableHeight"
-          :row-style="{height:&quot;40px&quot;}"
-          :cell-style="{padding:&quot;0&quot;}"
+          :cell-style="{padding: '0'}"
+          :row-style="{height: '40px'}"
         >
           <el-table-column
             type="selection"
@@ -126,7 +126,7 @@ export default {
       // 当前页数
       nowPage: 1,
       // 当前页显示数量
-      pageSize: 10,
+      pageSize: 18,
       // 当前总页数
       totalCum: 10,
       // 开始时间
@@ -145,7 +145,7 @@ export default {
     }
   },
   mounted() {
-    this.tableHeight = window.innerHeight * 0.72 + 'px' // 表格动态高度，根据屏幕分辨率
+    this.tableHeight = window.innerHeight * 0.8 + 'px' // 表格动态高度，根据屏幕分辨率
     getStockInInfo(this)
     getHospitalName(this)
     getMedicalWasteType(this)
@@ -296,7 +296,7 @@ export default {
 
 // 获取表格中的数据
 function getStockInInfo($this) {
-  request.post('/StockOut/queryStockInInfo', {
+  request.post('/StockOut/queryStockOutInfo', {
     hname: $this.ruleForm.selectName,
     type: $this.ruleForm.selectType,
     beginTime: $this.beginTime,

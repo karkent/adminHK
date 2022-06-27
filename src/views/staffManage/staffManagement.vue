@@ -289,7 +289,7 @@ export default {
       dialogVisible: false,
       tableData: [],
       nowPage: 1,
-      pageSize: 10,
+      pageSize: 16,
       totalCum: 0,
       pid: '',
       dialogType: 'new',

@@ -157,11 +157,11 @@ export default {
         selectWarningStatus: ''
       },
       // 表格高度
-      tableHeight: window.innerHeight * 0.72 + 'px',
+      tableHeight: window.innerHeight * 0.8 + 'px',
       // 当前页数
       nowPage: 1,
       // 当前页显示数量
-      pageSize: 10,
+      pageSize: 16,
       // 当前总页数
       totalCum: 10,
       // 开始结束时间
@@ -179,7 +179,7 @@ export default {
     }
   },
   mounted() {
-    this.tableHeight = window.innerHeight * 0.72 + 'px' // 表格动态高度，根据屏幕分辨率
+    this.tableHeight = window.innerHeight * 0.8 + 'px' // 表格动态高度，根据屏幕分辨率
     getStockInInfo(this)
     getHospitalName(this)
   },

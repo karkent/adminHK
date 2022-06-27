@@ -566,7 +566,7 @@ export default {
       formLabelWidth: '120px',
       tableData: [],
       nowPage: 1,
-      pageSize: 10,
+      pageSize: 16,
       totalCum: 100,
       typeSelect: [],
       hospitalStateOptions: []

@@ -141,7 +141,7 @@ export default {
       tableData2: [],
       checkedData: [], // 选择多选框时的选中值
       nowPage: 1,
-      pageSize: 10,
+      pageSize: 16,
       totalCum: 0,
       ruleForm: {
         dname: '',

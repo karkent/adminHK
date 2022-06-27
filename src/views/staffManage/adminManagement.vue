@@ -173,7 +173,7 @@ export default {
       inputarr: '',
       tableData: [],
       nowPage: 1,
-      pageSize: 10,
+      pageSize: 16,
       tableHeight: window.innerHeight * 0.72,
       totalCum: 0,
       chiocedilog: false,

@@ -123,7 +123,7 @@ export default {
       searchStr: '',
       tableData: [],
       nowPage: 1,
-      pageSize: 10,
+      pageSize: 16,
       totalCum: 0,
       dialogFormVisible: false,
       tableHeight: window.innerHeight * 0.72, // 表格高度

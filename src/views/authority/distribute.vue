@@ -122,7 +122,7 @@ export default {
       tableData: [],
       // nowShowTableData: [],
       nowPage: 1,
-      pageSize: 10,
+      pageSize: 16,
       totalCum: 0,
       value1: [],
       value2: [],

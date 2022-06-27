@@ -9,15 +9,19 @@
         <span class="timeText" :style="colorDiv(this.back)">{{ this.time }}</span>
       </div>
       <div class="topDivThree">
-        <img ref="on" style="display: block;width: 1.4vw" src="@/assets/img/day_daytime_icon.png" @click="daytime">
-        <img ref="off" style="display: none;width: 1.4vw" src="@/assets/img/night_daytime_icon.png" @click="daytime">
+        <img ref="on" src="@/assets/img/day_daytime_icon@2x.png" style="display: block;width: 1.4vw" @click="daytime">
+        <img ref="off" src="@/assets/img/night_daytime_icon@2x.png" style="display: none;width: 1.4vw" @click="daytime">
+      </div>
+      <div style="margin: auto 25% auto -23%;">
+        <img ref="onOut" src="@/assets/img/day_SignOut_icon@2x.png" style="display: block;width: 1.4vw" @click="out">
+        <img ref="offOut" src="@/assets/img/night_SignOut_icon@2x.png" style="display: none;width: 1.4vw" @click="out">
       </div>
     </div>
 
     <div class="towDiv" :style="backDiv(this.back)">
       <div class="towDivSon">
         <div>
-          <span class="weightText" :style="colorDiv(this.back)">1,676.44</span>
+          <span :style="colorDiv(this.back)" class="weightText">{{ this.showData.month }}</span>
         </div>
         <div style="padding: 7% 0 0 0;">
           <span class="weightText2" :style="colorFont(this.back)">医废月总重量（kg）</span>
@@ -26,7 +30,7 @@
       </div>
       <div class="towDivSon">
         <div>
-          <span class="weightText" :style="colorDiv(this.back)">1,676.44</span>
+          <span :style="colorDiv(this.back)" class="weightText">{{ this.showData.year }}</span>
         </div>
         <div style="padding: 7% 0 0 0;">
           <span class="weightText2" :style="colorFont(this.back)">医废年总重量（kg）</span>
@@ -35,7 +39,7 @@
       </div>
       <div class="towDivThree">
         <div>
-          <span class="weightText" :style="colorDiv(this.back)">1,676.44</span>
+          <span :style="colorDiv(this.back)" class="weightText">{{ this.showData.day }}</span>
         </div>
         <div style="padding: 7% 0 0 0;">
           <span class="weightText2" :style="colorFont(this.back)">医废日总重量（kg）</span>
@@ -53,28 +57,28 @@
         <div id="building" style="margin: auto" :style="backP(this.back)">
           <div class="allBottomLeftDiv">
             <div class="numWeightOneTop">
-              <span class="weightTop">27,0115.82</span>
+              <span class="weightTop">{{ this.showData.tblMSortOne.weight }}kg</span>
             </div>
             <div class="numWeightOneLeft">
-              <span class="roomName">1号楼检验科</span>
+              <span class="roomName">{{ this.showData.tblMSortOne.spare3 }}</span>
             </div>
           </div>
 
           <div class="allBottomLeftDiv">
             <div class="numWeightTowTop">
-              <span class="weightTow">27,0115.82</span>
+              <span class="weightTow">{{ this.showData.tblMSortThree.weight }}kg</span>
             </div>
             <div class="numWeightOneMid">
-              <span class="roomNameTow">麻醉手术科2部</span>
+              <span class="roomNameTow">{{ this.showData.tblMSortThree.spare3 }}</span>
             </div>
           </div>
 
           <div class="allBottomLeftDiv">
             <div class="numWeightThreeTop">
-              <span class="weightTop">27,065.82</span>
+              <span class="weightTop">{{ this.showData.tblMSortTow.weight }}kg</span>
             </div>
             <div class="numWeightOneRight">
-              <span class="roomName">神经内科二区</span>
+              <span class="roomName">{{ this.showData.tblMSortTow.spare3 }}</span>
             </div>
           </div>
         </div>
@@ -108,7 +112,9 @@
               <div v-else-if=" item.id == '2'" class="scrollIdText2"><span v-text="item.id" /></div>
               <div v-else-if=" item.id == '3'" class="scrollIdText3"><span v-text="item.id" /></div>
               <div v-else class="scrollIdText4"><span v-text="item.id" /></div>
-              <div class="scrollTimeText"><span v-text="item.time" /></div>
+
+              <div v-if="item.id >= '10'" class="scrollIdTextMor"><span v-text="item.time" /></div>
+              <div v-else class="scrollTimeText"><span v-text="item.time" /></div>
               <div class="scrollUserText"><span v-text="item.user" /></div>
               <div class="scrollWeightText"><span v-text="item.weight" /></div>
             </div>
@@ -122,7 +128,8 @@
               <div v-else-if=" item.id == '2'" class="scrollIdText2"><span v-text="item.id" /></div>
               <div v-else-if=" item.id == '3'" class="scrollIdText3"><span v-text="item.id" /></div>
               <div v-else class="scrollIdText4"><span v-text="item.id" /></div>
-              <div class="scrollTimeText" style="color: white"><span v-text="item.time" /></div>
+              <div v-if="item.id >= '10'" class="scrollIdTextMor" style="color: white"><span v-text="item.time" /></div>
+              <div v-else class="scrollTimeText" style="color: white"><span v-text="item.time" /></div>
               <div class="scrollUserText" style="color: white"><span v-text="item.user" /></div>
               <div class="scrollWeightText" style="color: white"><span v-text="item.weight" /></div>
             </div>
@@ -142,29 +149,31 @@
           <span class="tinyText" style="padding-left: 15%" :style="colorDiv(this.back)">重量(kg)</span>
         </div>
         <div id="midOne" class="scrDivOne">
-          <vue-seamless-scroll :data="listData" :class-option="optionHover" style="height: 10.5vw;float: left">
-            <div v-for="(item, index) in listData" :key="index" style="padding-top: 2%;float: left;width: 50vw;display: flex">
+          <vue-seamless-scroll :class-option="optionHover" :data="listData2" style="height: 10.5vw;float: left">
+            <div v-for="(item, index) in listData2" :key="index" style="padding-top: 2%;float: left;width: 50vw;display: flex">
               <div v-if=" item.id == '1'" class="scrollIdText1"><span v-text="item.id" /></div>
               <div v-else-if=" item.id == '2'" class="scrollIdText2"><span v-text="item.id" /></div>
               <div v-else-if=" item.id == '3'" class="scrollIdText3"><span v-text="item.id" /></div>
               <div v-else class="scrollIdText4"><span v-text="item.id" /></div>
-              <div class="scrollTimeText"><span v-text="item.time" /></div>
+              <div v-if="item.id >= '10'" class="scrollIdTextMor"><span v-text="item.time" /></div>
+              <div v-else class="scrollTimeText"><span v-text="item.time" /></div>
               <div class="scrollUserText"><span v-text="item.user" /></div>
-              <div class="scrollWeightText"><span v-text="item.weight" /></div>
+              <div class="scrollWeightText2"><span v-text="item.weight" /></div>
             </div>
           </vue-seamless-scroll>
         </div>
 
         <div id="midTow" class="scrDivTow">
-          <vue-seamless-scroll :data="listData" :class-option="optionHover" style="height: 10.5vw;float: left">
-            <div v-for="(item, index) in listData" :key="index" style="padding-top: 2%;float: left;width: 50vw;display: flex">
+          <vue-seamless-scroll :class-option="optionHover" :data="listData2" style="height: 10.5vw;float: left">
+            <div v-for="(item, index) in listData2" :key="index" style="padding-top: 2%;float: left;width: 50vw;display: flex">
               <div v-if=" item.id == '1'" class="scrollIdText1"><span v-text="item.id" /></div>
               <div v-else-if=" item.id == '2'" class="scrollIdText2"><span v-text="item.id" /></div>
               <div v-else-if=" item.id == '3'" class="scrollIdText3"><span v-text="item.id" /></div>
               <div v-else class="scrollIdText4"><span v-text="item.id" /></div>
-              <div class="scrollTimeText" style="color: white"><span v-text="item.time" /></div>
+              <div v-if="item.id >= '10'" class="scrollIdTextMor" style="color: white"><span v-text="item.time" /></div>
+              <div v-else class="scrollTimeText"style="color: white"><span v-text="item.time" /></div>
               <div class="scrollUserText" style="color: white"><span v-text="item.user" /></div>
-              <div class="scrollWeightText" style="color: white"><span v-text="item.weight" /></div>
+              <div class="scrollWeightText2" style="color: white"><span v-text="item.weight" /></div>
             </div>
           </vue-seamless-scroll>
         </div>
@@ -198,7 +207,7 @@
     <div class="rightDiv" style="margin-top: 1%">
       <div style="width: 100%;border-radius: 12px" :style="backDiv(this.back)">
         <div style="padding:4% 0 0 6%;width: 100%;">
-          <span class="midDivText" :style="backF(this.back)">近15天医废收集总量趋势</span>
+          <span :style="backF(this.back)" class="midDivText">近7天医废收集总量趋势</span>
         </div>
         <div id="text" style="width: 100%;height: 13vw;float: left;" />
       </div>
@@ -210,7 +219,9 @@
 <script>
 const { option } = require('runjs')
 import vueSeamlessScroll from 'vue-seamless-scroll'
-
+import request from '../../utils/request'
+import '../../assets/customed'
+import { BigNumber } from 'bignumber.js'
 export default {
   name: 'Show',
   components: {
@@ -226,14 +237,37 @@ export default {
       eBack: '',
       eColor: '',
       listData: [],
+      listData2: [],
       fontColor: '#4E6081',
+      msg: '',
       data8: [
-        { value: 1048, name: '感染性废物' },
-        { value: 735, name: '损伤性废物' },
-        { value: 580, name: '病理性废物' },
-        { value: 484, name: '化学性废物' },
-        { value: 300, name: '药物性废物' }
-      ]
+        { value: 0.0, name: '化学性废物' },
+        { value: 0.0, name: '感染性废物' },
+        { value: 0.0, name: '损伤性废物' },
+        { value: 0.0, name: '病理性废物' },
+        { value: 0.0, name: '药物性废物' }
+      ],
+      data9: [
+        { value: 0.0, name: '化学性废物' },
+        { value: 0.0, name: '感染性废物' },
+        { value: 0.0, name: '损伤性废物' },
+        { value: 0.0, name: '病理性废物' },
+        { value: 0.0, name: '药物性废物' }
+      ],
+      dayTrash: [],
+      weekTrash: [],
+      showData: {
+        year: '',
+        month: '',
+        day: '',
+        tblMSortOne: '',
+        tblMSortTow: '',
+        tblMSortThree: '',
+        threeDay: [],
+        threeMsg: [],
+        seven: [],
+        sevenWeight: []
+      }
     }
   },
   computed: {
@@ -270,10 +304,10 @@ export default {
     optionHover() {
       return {
         step: 1, // 数值越大速度滚动越快
-        limitMoveNum: 0, // 开始无缝滚动的数据量 this.dataList.length
         hoverStop: true, // 是否开启鼠标悬停stop
-        direction: 1, // 0向下 1向上 2向左 3向右
         openWatch: true, // 开启数据实时监控刷新dom
+        limitMoveNum: 0, // 开始无缝滚动的数据量 this.dataList.length
+        direction: 1, // 0向下 1向上 2向左 3向右
         singleHeight: 21, // 单步运动停止的高度(默认值0是无缝不停止的滚动) direction => 0/1
         singleWidth: 0, // 单步运动停止的宽度(默认值0是无缝不停止的滚动) direction => 2/3
         waitTime: 0// 单步运动停止的时间(默认值1000ms)
@@ -281,8 +315,9 @@ export default {
     }
   },
   mounted() {
-    this.dateShow()
+    this.realTime()
     this.colo()
+    this.dateShow()
     this.lestInt()
   },
   created() {
@@ -300,7 +335,8 @@ export default {
     dateShow() {
       this.timer = setInterval(() => {
         this.dateFormat()
-      }, 1000)
+        this.realTime()
+      }, 200000)
     },
     dateFormat() {
       this.date = new Date()
@@ -320,6 +356,8 @@ export default {
       if (this.back === true) {
         this.$refs.on.style.display = 'none'
         this.$refs.off.style.display = 'block'
+        this.$refs.onOut.style.display = 'none'
+        this.$refs.offOut.style.display = 'block'
         this.$refs.topDiv.style.background = '#212429'
         this.back = false
         this.eBack = 'dark'
@@ -332,6 +370,8 @@ export default {
       } else {
         this.$refs.on.style.display = 'block'
         this.$refs.off.style.display = 'none'
+        this.$refs.onOut.style.display = 'block'
+        this.$refs.offOut.style.display = 'none'
         this.$refs.topDiv.style.background = '#F3F4FD'
         this.back = true
         this.eBack = ''
@@ -344,272 +384,338 @@ export default {
       }
       this.colo()
     },
+    out() {
+      this.$router.push({ path: '/dashboard' })
+    },
     colo() {
-      const sun = this.$echarts.init(document.getElementById('sun'))
-      sun.setOption({
-        backgroundColor: this.eColor,
-        xAxis: {
-          type: 'category',
-          data: ['5/20', '5/21', '5/22']
-        },
-        grid: {
-          x: 45,
-          y: 20,
-          bottom: 25,
-          right: 25
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [
-          {
-            data: [350, 222, 654],
-            type: 'line',
-            smooth: true
+      request.post('/dashboard/realTime', {
+        data: ''
+      }).then(res => {
+        this.showData.threeDay = []
+        // 年月日数据
+        this.showData.year = res.yearWeight
+        this.showData.day = res.dayWeight
+        this.showData.month = res.monthWeight
+        // //近三天
+        // var num = 3;
+        // for (var i = 0; i<res.three.length; i++){
+        //   num--;
+        //   this.showData.threeDay.push(res.three[num].collectdate)
+        //   this.showData.threeMsg.push(res.three[num].weight)
+        // }
+        // 实时收集数据
+        this.listData = []
+        this.listData2 = []
+        for (let i = 0; i < res.realTimeCollecting.length; i++) {
+          const j = {
+            id: i + 1,
+            time: res.realTimeCollecting[i].collectdate,
+            user: res.realTimeCollecting[i].spare3,
+            weight: res.realTimeCollecting[i].weight + 'kg'
           }
-        ]
-      })
-
-      const chartOne = this.$echarts.init(document.getElementById('chartOne'))
-      window.onresize = function() {
-        chartOne.resize()
-        sun.resize()
-      }
-      const list = this.data8
-      chartOne.setOption({
-        title: {
-          top: '10%',
-          text: '日医废占比',
-          textStyle: {
-            fontSize: 17,
-            color: this.fontColor,
-            fontWeight: '700',
-            fontFamily: 'MicrosoftYaHei'
+          const l = {
+            id: i + 1,
+            time: res.officeRealTimeCollecting[i].collectdate,
+            user: res.officeRealTimeCollecting[i].spare3,
+            weight: res.officeRealTimeCollecting[i].weight + 'kg'
           }
-        },
-        tooltip: {
-          trigger: 'item',
-          formatter: '{b}: {c} ({d}%)'
-        },
-        legend: {
-          left: '0',
-          top: '35%',
-          itemWidth: 17, // 图例图形宽度
-          itemHeight: 17,
-          itemGap: 34, // 图例图标与文字间的间距
-          textStyle: {
-            fontSize: 14, // 图例文字字体大小
-            marginLeft: '10%',
-            color: this.fontColor
-          },
-          formatter: function(name) { // 该函数用于设置图例显示后的百分比
-            const data = list
-            let total = 0
-            let value
-            list.forEach((item) => {
-              total += item.value
-              if (item.name == name) {
-                value = item.value
-              }
-            })
-            const p = Math.round(((value / total) * 100)) // 求出百分比
-            return `${name}  ${p}%` // 返回出图例所显示的内容是名称+百分比
+          this.listData2.push(l)
+          this.listData.push(j)
+        }
+        // 年医废收集排序三个
+        for (var a = 0; a < res.tblMSort.length; a++) {
+          if (res.tblMSort[a].infoid == 1) {
+            this.showData.tblMSortOne = res.tblMSort[a]
+          } else if (res.tblMSort[a].infoid == 2) {
+            this.showData.tblMSortTow = res.tblMSort[a]
+          } else {
+            this.showData.tblMSortThree = res.tblMSort[a]
           }
-        },
-        series: [
-          {
-            type: 'pie',
-            radius: ['40%', '70%'],
-            left: '72%',
-            avoidLabelOverlap: false,
-            label: {
-              show: false,
-              position: 'center'
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: '20',
-                itemGap: 20
-              }
-            },
-
-            data: this.data8
-          }
-        ]
-      })
-
-      const chartTow = this.$echarts.init(document.getElementById('chartTow'))
-      window.onresize = function() {
-        chartOne.resize()
-        chartTow.resize()
-        sun.resize()
-      }
-      chartTow.setOption({
-        title: {
-          right: 'right',
-          top: '10%',
-          text: '周医废占比',
-          textStyle: {
-            fontSize: 17,
-            color: this.fontColor,
-            fontWeight: '700',
-            fontFamily: 'MicrosoftYaHei'
-          }
-        },
-        tooltip: {
-          trigger: 'item',
-          formatter: '{b}: {c} ({d}%)'
-        },
-        legend: {
-          right: '0%',
-          top: '35%',
-          itemWidth: 17, // 图例图形宽度
-          itemHeight: 17,
-          itemGap: 34, // 图例图标与文字间的间距
-          textStyle: {
-            fontSize: 14, // 图例文字字体大小
-            color: this.fontColor
-          },
-          formatter: function(name) { // 该函数用于设置图例显示后的百分比
-            const data = list
-            let total = 0
-            let value
-            list.forEach((item) => {
-              total += item.value
-              if (item.name == name) {
-                value = item.value
-              }
-            })
-            const p = Math.round(((value / total) * 100)) // 求出百分比
-            return `${name}  ${p}%` // 返回出图例所显示的内容是名称+百分比
-          }
-        },
-        series: [
-          {
-            type: 'pie',
-            radius: ['40%', '70%'],
-            right: '72%',
-            avoidLabelOverlap: false,
-            label: {
-              show: false,
-              position: 'center'
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: '20',
-                itemGap: 20
-              }
-            },
-
-            data: this.data8
-          }
-        ]
-      })
-
-      const text = this.$echarts.init(document.getElementById('text'))
-      window.onresize = function() {
-        chartOne.resize()
-        chartTow.resize()
-        sun.resize()
-        text.resize()
-      }
-      text.setOption({
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            crossStyle: {
-              color: '#999'
-            }
-          }
-        },
-        grid: {
-          x: 70,
-          y: 60,
-          bottom: 24,
-          right: 60
-        },
-        toolbox: {
-          feature: {
-            dataView: { show: true, readOnly: false },
-            magicType: { show: true, type: ['line', 'bar'] },
-            restore: { show: true },
-            saveAsImage: { show: true }
-          }
-        },
-
-        legend: {
-          data: ['医疗废弃物总重量', '新冠类废弃物'],
-          textStyle: {
-            fontSize: 14, // 图例文字字体大小
-            color: this.fontColor
-          }
-        },
-        xAxis: [
-          {
+        }
+        // 近三天趋势
+        const sun = this.$echarts.init(document.getElementById('sun'))
+        sun.setOption({
+          backgroundColor: this.eColor,
+          xAxis: {
             type: 'category',
-            data: ['5/10', '5/11', '5/12', '5/13', '5/14', '5/15', '5/16'],
+            data: [res.three[0].collectdate, res.three[1].collectdate, res.three[2].collectdate]
+          },
+          grid: {
+            x: 45,
+            y: 20,
+            bottom: 25,
+            right: 25
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+              data: [res.three[0].weight, res.three[1].weight, res.three[2].weight],
+              type: 'line',
+              smooth: true
+            }
+          ]
+        })
+        // 天分类
+        const chartOne = this.$echarts.init(document.getElementById('chartOne'))
+
+        for (let m = 0; m < this.data8.length; m++) {
+          for (let i = 0; i < res.dayProportion.length; i++) {
+            if (this.data8[m].name === res.dayProportion[i].spare3) {
+              console.log(res.dayProportion[i].weight)
+              this.data8[m].value = res.dayProportion[i].weight
+            }
+          }
+        }
+        const list = this.data8
+        chartOne.setOption({
+          title: {
+            top: '10%',
+            text: '日医废占比',
+            textStyle: {
+              fontSize: 17,
+              color: this.fontColor,
+              fontWeight: '700',
+              fontFamily: 'MicrosoftYaHei'
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}: {c} ({d}%)'
+          },
+          legend: {
+            left: 'left',
+            top: '35%',
+            itemWidth: 15, // 图例图形宽度
+            itemHeight: 15,
+            itemGap: 40, // 图例图标与文字间的间距
+            textStyle: {
+              fontSize: 14, // 图例文字字体大小
+              color: this.fontColor
+            },
+            formatter: function(name) { // 该函数用于设置图例显示后的百分比
+              const data = list
+              let total = 0.00
+              let value
+              list.forEach((item) => {
+                total = BigNumber(total).plus(BigNumber(item.value)).toNumber()// 结果需要用toNumber转为普通数字
+                if (item.name == name) {
+                  value = BigNumber(item.value)
+                }
+              })
+              const p = Math.round((BigNumber((value / total) * 100))) // 求出百分比
+              if (value == 0) {
+                return `${name} ${0 + '.0'}%`
+              } else {
+                return `${name}  ${p}%` // 返回出图例所显示的内容是名称+百分比
+              }
+            }
+          },
+          series: [
+            {
+              type: 'pie',
+              radius: ['40%', '70%'],
+              left: '72%',
+              avoidLabelOverlap: false,
+              label: {
+                show: false,
+                position: 'center'
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '20',
+                  itemGap: 20
+                }
+              },
+              data: this.data8
+            }
+          ]
+        })
+
+        // 七天分类
+        for (let m = 0; m < this.data9.length; m++) {
+          for (let i = 0; i < res.weekProportion.length; i++) {
+            if (this.data9[m].name === res.weekProportion[i].spare3) {
+              this.data9[m].value = res.weekProportion[i].weight
+            }
+          }
+        }
+        const listOne = this.data9
+        const chartTow = this.$echarts.init(document.getElementById('chartTow'))
+        chartTow.setOption({
+          title: {
+            right: 'right',
+            top: '10%',
+            text: '周医废占比',
+            textStyle: {
+              fontSize: 17,
+              color: this.fontColor,
+              fontWeight: '700',
+              fontFamily: 'MicrosoftYaHei'
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}: {c} ({d}%)'
+          },
+          legend: {
+            x: '25%',
+            top: '35%',
+            itemWidth: 15, // 图例图形宽度
+            itemHeight: 15,
+            itemGap: 40, // 图例图标与文字间的间距
+            textStyle: {
+              fontSize: 14, // 图例文字字体大小
+              color: this.fontColor
+            },
+            formatter: function(name) { // 该函数用于设置图例显示后的百分比
+              const data = listOne
+              let total = 0
+              let value
+              listOne.forEach((item) => {
+                total = BigNumber(total).plus(BigNumber(item.value)).toNumber()// 结果需要用toNumber转为普通数字
+                if (item.name == name) {
+                  value = BigNumber(item.value)
+                }
+              })
+              const p = Math.round((BigNumber((value / total) * 100))) // 求出百分比
+              if (value == 0) {
+                return `${name} ${0 + '.0'}%`
+              } else {
+                return `${name} ${p}%` // 返回出图例所显示的内容是名称+百分比
+              }
+            }
+          },
+          series: [
+            {
+              type: 'pie',
+              radius: ['40%', '70%'],
+              right: '72%',
+              avoidLabelOverlap: false,
+              label: {
+                show: false,
+                position: 'center'
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '20',
+                  itemGap: 20
+                }
+              },
+              data: this.data9
+            }
+          ]
+        })
+
+        console.log(res.seven)
+        // 医疗废弃七天
+        const text = this.$echarts.init(document.getElementById('text'))
+        window.onresize = function() {
+          chartOne.resize()
+          chartTow.resize()
+          sun.resize()
+          text.resize()
+        }
+        text.setOption({
+          tooltip: {
+            trigger: 'axis',
             axisPointer: {
-              type: 'shadow'
-            }
-          }
-        ],
-        yAxis: [
-          {
-            type: 'value',
-            name: '医疗废弃物总重量',
-            interval: 50,
-            axisLabel: {
-              formatter: '{value} kg'
+              type: 'cross',
+              crossStyle: {
+                color: '#999'
+              }
             }
           },
-          {
-            type: 'value',
-            name: '新冠类废弃物',
-            interval: 5,
-            axisLabel: {
-              formatter: '{value} kg'
-            }
-          }
-        ],
-        series: [
-          {
-            name: '医疗废弃物总重量',
-            type: 'bar',
-            tooltip: {
-              valueFormatter: function(value) {
-                return value + ' kg'
-              }
-            },
-            data: [
-              2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3
-            ]
+          grid: {
+            x: 70,
+            y: 60,
+            bottom: 24,
+            right: 60
           },
-          {
-            name: '新冠类废弃物',
-            type: 'line',
-            yAxisIndex: 1,
-            tooltip: {
-              valueFormatter: function(value) {
-                return value + ' °C'
+          toolbox: {
+            feature: {
+              dataView: { show: true, readOnly: false },
+              magicType: { show: true, type: ['line', 'bar'] },
+              restore: { show: true },
+              saveAsImage: { show: true }
+            }
+          },
+          legend: {
+            data: ['医疗废弃物总重量', '新冠类废弃物'],
+            textStyle: {
+              fontSize: 14, // 图例文字字体大小
+              color: this.fontColor
+            }
+          },
+          xAxis: [
+            {
+              type: 'category',
+              data: [res.seven[0].collectdate, res.seven[1].collectdate, res.seven[2].collectdate, res.seven[3].collectdate,
+                res.seven[4].collectdate, res.seven[5].collectdate, res.seven[6].collectdate],
+              axisPointer: {
+                type: 'shadow'
+              }
+            }
+          ],
+          yAxis: [
+            {
+              type: 'value',
+              name: '医疗废弃物总重量',
+              interval: 150,
+              axisLabel: {
+                formatter: '{value} kg'
               }
             },
-            data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
-          }
-        ]
+            {
+              type: 'value',
+              name: '新冠类废弃物',
+              interval: 50,
+              axisLabel: {
+                formatter: '{value} kg'
+              }
+            }
+          ],
+          series: [
+            {
+              name: '医疗废弃物总重量',
+              type: 'bar',
+              tooltip: {
+                valueFormatter: function(value) {
+                  return value + ' kg'
+                }
+              },
+              data: [res.seven[0].weight, res.seven[1].weight, res.seven[2].weight, res.seven[3].weight,
+                res.seven[4].weight, res.seven[5].weight, res.seven[6].weight]
+            },
+            {
+              name: '新冠类废弃物',
+              type: 'line',
+              yAxisIndex: 1,
+              tooltip: {
+                valueFormatter: function(value) {
+                  return value + ' kg'
+                }
+              },
+              data: [res.disease[0].weight, res.disease[1].weight, res.disease[2].weight, res.disease[3].weight,
+                res.disease[4].weight, res.disease[5].weight, res.disease[6].weight]
+            }
+          ]
+        })
       })
     },
     lestInt() {
-      for (let i = 1; i < 6; i++) {
+      for (let i = 0; i < 15; i++) {
         const j = {
-          id: i,
-          time: '2022年5月19日09:38:17',
+          id: i + 1,
+          time: 123,
           user: '赵子星',
           weight: '10.5'
         }
         this.listData.push(j)
+        this.listData2.push(j)
       }
     },
     borderType(boolean) {
@@ -630,9 +736,331 @@ export default {
         document.getElementById('bTow').style.borderLeft = '1px solid #E4E4E4'
         document.getElementById('bTow').style.borderBottom = '1px solid #E4E4E4'
       }
+    },
+    realTime() { // 向后台发请求
+      request.post('/dashboard/realTime', {
+        data: ''
+      }).then(res => {
+        this.showData.threeDay = []
+        // 年月日数据
+        this.showData.year = res.yearWeight
+        this.showData.day = res.dayWeight
+        this.showData.month = res.monthWeight
+        // 近三天
+        var num = 3
+        for (var i = 0; i < res.three.length; i++) {
+          num--
+          this.showData.threeDay.push(res.three[num].collectdate)
+          this.showData.threeMsg.push(res.three[num].weight)
+        }
+        // 年医废收集排序三个
+        for (var a = 0; a < res.tblMSort.length; a++) {
+          if (res.tblMSort[a].infoid == 1) {
+            this.showData.tblMSortOne = res.tblMSort[a]
+          } else if (res.tblMSort[a].infoid == 2) {
+            this.showData.tblMSortTow = res.tblMSort[a]
+          } else {
+            this.showData.tblMSortThree = res.tblMSort[a]
+          }
+        }
+        // 实时收集数据
+        this.listData = []
+        this.listData2 = []
+        for (let i = 0; i < res.realTimeCollecting.length; i++) {
+          const j = {
+            id: i + 1,
+            time: res.realTimeCollecting[i].collectdate,
+            user: res.realTimeCollecting[i].spare3,
+            weight: res.realTimeCollecting[i].weight + 'kg'
+          }
+          const l = {
+            id: i + 1,
+            time: res.officeRealTimeCollecting[i].collectdate,
+            user: res.officeRealTimeCollecting[i].spare3,
+            weight: res.officeRealTimeCollecting[i].weight + 'kg'
+          }
+          this.listData2.push(l)
+          this.listData.push(j)
+        }
+        // 近三天趋势
+        const sun = this.$echarts.init(document.getElementById('sun'))
+        sun.setOption({
+          backgroundColor: this.eColor,
+          xAxis: {
+            type: 'category',
+            data: [res.three[0].collectdate, res.three[1].collectdate, res.three[2].collectdate]
+          },
+          grid: {
+            x: 45,
+            y: 20,
+            bottom: 25,
+            right: 25
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [
+            {
+              data: [res.three[0].weight, res.three[1].weight, res.three[2].weight],
+              type: 'line',
+              smooth: true
+            }
+          ]
+        })
+        // 天分类
+        const chartOne = this.$echarts.init(document.getElementById('chartOne'))
+        for (let m = 0; m < this.data8.length; m++) {
+          for (let i = 0; i < res.dayProportion.length; i++) {
+            if (this.data8[m].name === res.dayProportion[i].spare3) {
+              console.log(res.dayProportion[i].weight)
+              this.data8[m].value = res.dayProportion[i].weight
+            }
+          }
+        }
+        const list = this.data8
+        chartOne.setOption({
+          title: {
+            top: '10%',
+            text: '日医废占比',
+            textStyle: {
+              fontSize: 17,
+              color: this.fontColor,
+              fontWeight: '700',
+              fontFamily: 'MicrosoftYaHei'
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}: {c} ({d}%)'
+          },
+          legend: {
+            left: '0',
+            top: '35%',
+            itemWidth: 15, // 图例图形宽度
+            itemHeight: 15,
+            itemGap: 40, // 图例图标与文字间的间距
+            textStyle: {
+              fontSize: 14, // 图例文字字体大小
+              marginLeft: '10%',
+              color: this.fontColor
+            },
+            formatter: function(name) { // 该函数用于设置图例显示后的百分比
+              const data = list
+              let total = 0.00
+              let value
+              list.forEach((item) => {
+                total = BigNumber(total).plus(BigNumber(item.value)).toNumber()// 结果需要用toNumber转为普通数字
+                if (item.name == name) {
+                  value = BigNumber(item.value)
+                }
+              })
+              const p = Math.round((BigNumber((value / total) * 100))) // 求出百分比
+              if (value == 0) {
+                return `${name} ${0 + '.0'}%`
+              } else {
+                return `${name} ${p}%` // 返回出图例所显示的内容是名称+百分比
+              }
+            }
+          },
+          series: [
+            {
+              type: 'pie',
+              radius: ['40%', '70%'],
+              left: '72%',
+              avoidLabelOverlap: false,
+              label: {
+                show: false,
+                position: 'center'
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '20',
+                  itemGap: 20
+                }
+              },
+              data: this.data8
+            }
+          ]
+        })
+        // 七天分类
+        for (let m = 0; m < this.data9.length; m++) {
+          if (m < res.weekProportion.length) {
+            if (this.data9[m].name === res.weekProportion[m].spare3) {
+              this.data9[m].value = res.weekProportion[m].weight
+            }
+          }
+        }
+        const listOne = this.data9
+        const chartTow = this.$echarts.init(document.getElementById('chartTow'))
+        chartTow.setOption({
+          title: {
+            right: 'right',
+            top: '10%',
+            text: '周医废占比',
+            textStyle: {
+              fontSize: 17,
+              color: this.fontColor,
+              fontWeight: '700',
+              fontFamily: 'MicrosoftYaHei'
+            }
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter: '{b}: {c} ({d}%)'
+          },
+          legend: {
+            left: '25%',
+            top: '35%',
+            itemWidth: 15, // 图例图形宽度
+            itemHeight: 15,
+            itemGap: 40, // 图例图标与文字间的间距
+            textStyle: {
+              fontSize: 14, // 图例文字字体大小
+              color: this.fontColor
+            },
+            formatter: function(name) { // 该函数用于设置图例显示后的百分比
+              const data = listOne
+              let total = 0
+              let value
+              listOne.forEach((item) => {
+                total = BigNumber(total).plus(BigNumber(item.value)).toNumber()// 结果需要用toNumber转为普通数字
+                if (item.name == name) {
+                  value = BigNumber(item.value)
+                }
+              })
+              const p = Math.round((BigNumber((value / total) * 100))) // 求出百分比
+              if (value == 0) {
+                return `${name} ${0 + '.0'}%`
+              } else {
+                return `${name} ${p}%` // 返回出图例所显示的内容是名称+百分比
+              }
+            }
+          },
+          series: [
+            {
+              type: 'pie',
+              radius: ['40%', '70%'],
+              right: '72%',
+              avoidLabelOverlap: false,
+              label: {
+                show: false,
+                position: 'center'
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '20',
+                  itemGap: 20
+                }
+              },
+              data: this.data9
+            }
+          ]
+        })
+        // 医疗废弃七天
+        const text = this.$echarts.init(document.getElementById('text'))
+        window.onresize = function() {
+          chartOne.resize()
+          chartTow.resize()
+          sun.resize()
+          text.resize()
+        }
+        text.setOption({
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              crossStyle: {
+                color: '#999'
+              }
+            }
+          },
+          grid: {
+            x: 70,
+            y: 60,
+            bottom: 24,
+            right: 60
+          },
+          toolbox: {
+            feature: {
+              dataView: { show: true, readOnly: false },
+              magicType: { show: true, type: ['line', 'bar'] },
+              restore: { show: true },
+              saveAsImage: { show: true }
+            }
+          },
+          legend: {
+            data: ['医疗废弃物总重量', '新冠类废弃物'],
+            textStyle: {
+              fontSize: 14, // 图例文字字体大小
+              color: this.fontColor
+            }
+          },
+          xAxis: [
+            {
+              type: 'category',
+              data: [res.seven[0].collectdate, res.seven[1].collectdate, res.seven[2].collectdate, res.seven[3].collectdate,
+                res.seven[4].collectdate, res.seven[5].collectdate, res.seven[6].collectdate],
+              axisPointer: {
+                type: 'shadow'
+              }
+            }
+          ],
+          yAxis: [
+            {
+              type: 'value',
+              name: '医疗废弃物总重量',
+              interval: 150,
+              axisLabel: {
+                formatter: '{value} kg'
+              }
+            },
+            {
+              type: 'value',
+              name: '新冠类废弃物',
+              interval: 50,
+              axisLabel: {
+                formatter: '{value} kg'
+              }
+            }
+          ],
+          series: [
+            {
+              name: '医疗废弃物总重量',
+              type: 'bar',
+              tooltip: {
+                valueFormatter: function(value) {
+                  return value + ' kg'
+                }
+              },
+              data: [res.seven[0].weight, res.seven[1].weight, res.seven[2].weight, res.seven[3].weight,
+                res.seven[4].weight, res.seven[5].weight, res.seven[6].weight]
+            },
+            {
+              name: '新冠类废弃物',
+              type: 'line',
+              yAxisIndex: 1,
+              tooltip: {
+                valueFormatter: function(value) {
+                  return value + ' kg'
+                }
+              },
+              data: [res.disease[0].weight, res.disease[1].weight, res.disease[2].weight, res.disease[3].weight,
+                res.disease[4].weight, res.disease[5].weight, res.disease[6].weight]
+            }
+          ]
+        })
+      })
+    },
+    add(a, b) {
+      a = BigNumber(a)
+      b = BigNumber(b)
+      return a.plus(b).toNumber() // 结果需要用toNumber转为普通数字
     }
   }
 }
+
 </script>
 
 <style>
@@ -663,7 +1091,10 @@ export default {
   /*background: #0a76a4;*/
   margin: auto 25% auto auto;
 }
-
+.topDivFour {
+  /*background: #0a76a4;*/
+  /*margin: auto 5% auto auto;*/
+}
 .timeText {
   font-family: MicrosoftYaHei;
   font-size: 1vw;
@@ -813,7 +1244,7 @@ export default {
 
 .roomNameTow {
   font-family: MicrosoftYaHei;
-  font-size: 0.8vw;
+  font-size: 0.9vw;
   color: #FFFFFF;
   text-align: center;
   font-weight: 400;
@@ -887,12 +1318,21 @@ export default {
   font-weight: 400;
 }
 .scrollIdText4{
+  /*max-width: 1.5vw;*/
   font-family: MicrosoftYaHei;
   background: #F1F2F6;
   font-size: 0.8vw;
   padding:0.5% 1% 0.5% 1%;
   margin-left: 4.5%;
   border-radius: 50px;
+  font-weight: 400;
+}
+.scrollIdTextMor{
+  padding-top: 0.5%;
+  margin-left: 4%;
+  font-family: MicrosoftYaHei;
+  font-size: 0.8vw;
+  color: #1D2129;
   font-weight: 400;
 }
 .scrollTimeText{
@@ -905,7 +1345,7 @@ export default {
 }
 .scrollUserText{
   padding-top: 0.5%;
-  margin-left: 3.5%;
+  margin-left: 5.4%;
   font-family: MicrosoftYaHei;
   font-size: 0.8vw;
   color: #1D2129;
@@ -913,7 +1353,17 @@ export default {
 }
 .scrollWeightText{
   padding-top: 0.5%;
-  margin-left: 10%;
+  position: absolute;
+  margin-left: 47.5%;
+  font-family: MicrosoftYaHei-Bold;
+  font-size: 0.8vw;
+  color: #1D2129;
+  font-weight: 700;
+}
+.scrollWeightText2{
+  padding-top: 0.5%;
+  position: absolute;
+  margin-left: 49%;
   font-family: MicrosoftYaHei-Bold;
   font-size: 0.8vw;
   color: #1D2129;
